@@ -47,7 +47,7 @@ bool OCTNUM(char c) {
 }
 
 bool HEXNUM(char c) {
-  return NUMBER(c, 0, 9) || LETTER(c, 'a', 'f');
+  return NUMBER(c, 0, 9) || XLETTER(c, 'a', 'f');
 }
 
 bool OTHERS(char c, const char *s) {
@@ -72,7 +72,6 @@ bool OPERATOR(char c) {
       return true;
     default: return false;
   }
-  return -1;
 }
 
 static void print_keyword(int keyword_type) {
@@ -82,24 +81,20 @@ static void print_keyword(int keyword_type) {
 
 void print_token(int token_type, char *value) {
   assert(token_type < NR_TOKENS);
-  if (token_type != TK_SPACE)
-  {
-      printf("%s\t", token_type_str[token_type]);
-      switch (token_type) {
-        //case TK_SPACE: break;
-        case TK_IDN:
-        case TK_OCT:
-        case TK_DEC:
-        case TK_HEX:
-        case TK_ILOCT:
-        case TK_ILHEX:
-          printf("%s\n", value);
-          break;
-        case TK_KEY:
-          print_keyword(atoi(value));
-          break;
-        default: printf("-\n");
-      }
+  printf("%s\t", token_type_str[token_type]);
+  switch (token_type) {
+    case TK_IDN:
+    case TK_OCT:
+    case TK_DEC:
+    case TK_HEX:
+    case TK_ILOCT:
+    case TK_ILHEX:
+      printf("%s\n", value);
+      break;
+    case TK_KEY:
+      print_keyword(atoi(value));
+      break;
+    default: printf("-\n");
   }
 }
 

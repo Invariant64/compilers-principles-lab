@@ -4,7 +4,7 @@
 #include "fsm.h"
 
 #define DEFAULT_INPUT "0 92+data>= 0x1f 09 ;\
-while"
+                       while"
 
 int main(int argc, char **argv) {
   char *str;
@@ -26,7 +26,6 @@ int main(int argc, char **argv) {
     fseek(fp, 0, SEEK_SET);
 
     str = (char *)malloc(fsize + 1);
-    memset(str, sizeof str, '\0');
     fread(str, 1, fsize, fp);
     fclose(fp);
     str[fsize] = '\0';
@@ -36,9 +35,15 @@ int main(int argc, char **argv) {
   int nr_tokens = 0;
 
   char *p = str;
-  while (p && *p) {
+  char *t;
+  while (*p) {
+    t = p;
     p = fsm(p, &tokens[nr_tokens]);
-    nr_tokens++;
+    if (p == NULL) {
+      p = t + 1;
+      continue;
+    }
+    if (tokens[nr_tokens].type != TK_SPACE) nr_tokens++;
   }
 
   print_tokens(tokens, nr_tokens);
