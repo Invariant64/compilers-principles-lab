@@ -23,7 +23,7 @@ char *fsm(char *str, struct token_t *token) {
       tmp_str[i] = str[idx];
       i ++,idx ++;
     }
-    if((a = RESERVEDWORD(tmp_str)) != -1) 
+    if((a = RESERVEDWORD(tmp_str)) == -1) 
     {
       token->type = TK_IDN;
       strcpy(token->value, tmp_str);
@@ -115,6 +115,7 @@ char *fsm(char *str, struct token_t *token) {
     //strcpy(token->value,NULL);
     return str + idx + 1;
   }
-  return NULL;
+  token->type = TK_OTHER;
+  return str + 1;
 }
 

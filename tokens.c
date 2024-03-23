@@ -5,7 +5,7 @@
 const char *token_type_str[] = {
   "SPACE", "IDN", "OCT", "DEC", "HEX", "ADD", "SUB", "MUL", "DIV", 
   "GT", "LT", "GE", "LE", "EQ", "NEQ", "SLP", "SRP", "SEM", "KEY", 
-  "ILOCT", "ILHEX"
+  "ILOCT", "ILHEX", "OTHER"
 };
 
 const char *keyword_type_str[] = {
@@ -27,11 +27,11 @@ bool OCTNUM(char c)
 }
 bool HEXNUM(char c)
 {
-  return (c >= 0 && c <= 9) || (c >= 'a' && c <= 'f') || (c >= 'A' && c <= 'F');
+  return (c >= '0' && c <= '9') || (c >= 'a' && c <= 'f') || (c >= 'A' && c <= 'F');
 }
 bool ILHEX(char c)
 {
-  return (c >= 0 && c <= 9) || (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z');
+  return (c >= '0' && c <= '9') || (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z');
 }
 bool LETTER(char c) {
   return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z');
@@ -39,56 +39,72 @@ bool LETTER(char c) {
 int PUCTUATION(char c)
 {
   switch (c) {
-    case '(': return TK_SLP;
-    case ')': return TK_SRP;
-    case ';': return TK_SEM;
+  case '(': return TK_SLP; break;
+    case ')': return TK_SRP;break;
+    case ';': return TK_SEM;break;
     default: return -1;
   }
+  return -1;
 }
 int OPERATOR(char *c)
 {
   switch (*c) {
-    case '+': return TK_ADD;
-    case '-': return TK_SUB;
-    case '*': return TK_MUL;
-    case '/': return TK_DIV;
+    case '+': 
+      return TK_ADD;
+      break;
+    case '-': 
+      return TK_SUB;
+      break;
+    case '*': 
+      return TK_MUL;
+      break;
+    case '/': 
+      return TK_DIV;
+      break;
     case '>': 
       if(*(c + 1) == '=') return TK_GE;
       else return TK_GT;
+      break;
     case '<': 
       if(*(c + 1) == '=') return TK_LE;
       else return TK_LT;
-    case '=': return TK_EQ;
+      break;
+    case '=': 
+      return TK_EQ;
+      break;
     case '!': 
       if(*(c + 1) == '=') return TK_NEQ;
       else return -1;
+      break;
     default: return -1;
   }
+  return -1;
 }
 int RESERVEDWORD(char *c)
 {
   switch (*c) {
     case 'i':
       if (strcmp(c, "if") == 0) return KW_IF;
-      
+      break;
     case 't':
       if (strcmp(c, "then") == 0) return KW_THEN;
-      
+      break;
     case 'e':
       if (strcmp(c, "else") == 0) return KW_ELSE;
       else if (strcmp(c, "end") == 0) return KW_END;
-      
+      break;
     case 'w':
       if (strcmp(c, "while") == 0) return KW_WHILE;
-      
+      break;
     case 'd':
       if (strcmp(c, "do") == 0) return KW_DO;
-      
+      break;
     case 'b':
       if (strcmp(c, "begin") == 0) return KW_BEGIN;
-      
+      break;
     default: return -1;
   }
+  return -1;
 }
 
 
