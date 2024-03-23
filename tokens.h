@@ -2,7 +2,7 @@
 #define __TOKENS_H__
 
 #define MAX_TOKEN_LEN 64
-
+#include <stdbool.h>
 enum token_type {
   TK_SPACE,  // Space
   TK_IDN,    // Identifier
@@ -44,5 +44,13 @@ struct token_t {
 
 void print_token(int token_type, char *value);
 void print_tokens(struct token_t *tokens, int nr_tokens);
-
+bool NUMBER(char c);
+bool OCTNUM(char c);
+bool HEXNUM(char c);
+bool ILHEX(char c);
+bool LETTER(char c);
+int RESERVEDWORD(char *c);
+int PUNCTUATION(char c);
+int OPERATOR(char *c);
+bool SPACE(char c);
 #endif // __TOKENS_H__
