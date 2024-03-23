@@ -54,6 +54,9 @@ bool ALETTER(char c);
 bool OCTNUM(char c);
 bool HEXNUM(char c);
 bool OPERATOR(char c);
+int OP_TYPE(char *c);
 bool OTHERS(char c, const char *s);
+bool KEYWORD(char *c, int len);
+int KEYWORD_TYPE(char *c, int len);
 
 #endif // __TOKENS_H__

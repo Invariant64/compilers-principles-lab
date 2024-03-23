@@ -57,23 +57,64 @@ bool OTHERS(char c, const char *s) {
   return false;
 }
 
+bool KEYWORD(char *c, int len) {
+  if (strncmp(c, "if", len) == 0) return true;
+  if (strncmp(c, "then", len) == 0) return true;
+  if (strncmp(c, "else", len) == 0) return true;
+  if (strncmp(c, "while", len) == 0) return true;
+  if (strncmp(c, "do", len) == 0) return true;
+  if (strncmp(c, "begin", len) == 0) return true;
+  if (strncmp(c, "end", len) == 0) return true;
+  return false;
+}
+
+int KEYWORD_TYPE(char *c, int len) {
+  if (strncmp(c, "if", len) == 0) return KW_IF;
+  if (strncmp(c, "then", len) == 0) return KW_THEN;
+  if (strncmp(c, "else", len) == 0) return KW_ELSE;
+  if (strncmp(c, "while", len) == 0) return KW_WHILE;
+  if (strncmp(c, "do", len) == 0) return KW_DO;
+  if (strncmp(c, "begin", len) == 0) return KW_BEGIN;
+  if (strncmp(c, "end", len) == 0) return KW_END;
+  return -1;
+}
+
 bool OPERATOR(char c) {
   switch (c) {
     case '+':
     case '-':
-    case '*':
     case '/':
-    case '>': 
-    case '<':
     case '=':
+    case '*':
     case '(':
     case ')':
     case ';':
-      return true;
+        return true;
     default: return false;
   }
 }
 
+int OP_TYPE(char *c) {
+  switch (*c) {
+    case '+': return TK_ADD;
+    case '-': return TK_SUB;
+    case '*': return TK_MUL;
+    case '/': return TK_DIV;
+    case '>': 
+      if(*(c+1) == '=') return TK_GE;
+      else return TK_GT;
+    case '<': 
+      if(*(c+1) == '=') return TK_LE;
+      else if(*(c+1) == '>') return TK_NEQ;
+      else return TK_LT;
+    case '=': return TK_EQ;
+    case '!': return TK_NEQ;
+    case '(': return TK_SLP;
+    case ')': return TK_SRP;
+    case ';': return TK_SEM;
+    default: return -1;
+  }
+}
 static void print_keyword(int keyword_type) {
   assert(keyword_type < NR_KEYWORDS);
   printf("%s\n", keyword_type_str[keyword_type]);

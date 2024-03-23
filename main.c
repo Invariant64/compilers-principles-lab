@@ -3,8 +3,7 @@
 #include <stdlib.h>
 #include "fsm.h"
 
-#define DEFAULT_INPUT "0 92+data>= 0x1f 09 ;\
-                       while"
+#define DEFAULT_INPUT "07 0x5f 0x1h 0g"
 
 int main(int argc, char **argv) {
   char *str;
