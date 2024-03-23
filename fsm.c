@@ -13,7 +13,7 @@ char *fsm(char *str, struct token_t *token) {
       idx++;
     }
     token->type = TK_SPACE;
-    //strcmp(token->value,NULL);
+    //strcpy(token->value,NULL);
     return str + idx;
   }
   if(LETTER(str[idx]))
@@ -26,7 +26,7 @@ char *fsm(char *str, struct token_t *token) {
     if((a = RESERVEDWORD(tmp_str)) != -1) 
     {
       token->type = TK_IDN;
-      strcmp(token->value, tmp_str);
+      strcpy(token->value, tmp_str);
     }
     else 
     {
@@ -45,7 +45,7 @@ char *fsm(char *str, struct token_t *token) {
         i ++,idx ++;
       }
       token->type = TK_DEC;
-      strcmp(token->value,tmp_str);
+      strcpy(token->value,tmp_str);
     }
     else 
     {
@@ -72,7 +72,7 @@ char *fsm(char *str, struct token_t *token) {
         }
         if(ilhex) token->type = TK_ILHEX;
         else token->type = TK_HEX;
-        strcmp(token->value,tmp_str);
+        strcpy(token->value,tmp_str);
       }
       else if(OCTNUM(str[idx]))
       {
@@ -93,12 +93,12 @@ char *fsm(char *str, struct token_t *token) {
         }
         if(iloct) token->type = TK_ILOCT;
         else token->type = TK_OCT;
-        strcmp(token->value,tmp_str);
+        strcpy(token->value,tmp_str);
       }
       else 
       {
         token->type = TK_DEC;
-        strcmp(token->value,tmp_str);
+        strcpy(token->value,tmp_str);
       }
     }
     return str + idx;
@@ -106,13 +106,13 @@ char *fsm(char *str, struct token_t *token) {
   if((a = PUCTUATION(str[idx])) != -1)
   {
     token->type = a;
-    //strcmp(token->value,NULL);
+    //strcpy(token->value,NULL);
     return str + idx + 1;
   }
   if((a = OPERATOR(str + idx)) != -1)
   {
     token->type = a;
-    //strcmp(token->value,NULL);
+    //strcpy(token->value,NULL);
     return str + idx + 1;
   }
   return NULL;

@@ -99,22 +99,24 @@ static void print_keyword(int keyword_type) {
 
 void print_token(int token_type, char *value) {
   assert(token_type < NR_TOKENS);
-
-  printf("%s\t", token_type_str[token_type]);
-  switch (token_type) {
-    case TK_SPACE: break;
-    case TK_IDN:
-    case TK_OCT:
-    case TK_DEC:
-    case TK_HEX:
-    case TK_ILOCT:
-    case TK_ILHEX:
-      printf("%s\n", value);
-      break;
-    case TK_KEY:
-      print_keyword(atoi(value));
-      break;
-    default: printf("-\n");
+  if (token_type != TK_SPACE)
+  {
+      printf("%s\t", token_type_str[token_type]);
+      switch (token_type) {
+        //case TK_SPACE: break;
+        case TK_IDN:
+        case TK_OCT:
+        case TK_DEC:
+        case TK_HEX:
+        case TK_ILOCT:
+        case TK_ILHEX:
+          printf("%s\n", value);
+          break;
+        case TK_KEY:
+          print_keyword(atoi(value));
+          break;
+        default: printf("-\n");
+      }
   }
 }
 
