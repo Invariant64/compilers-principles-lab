@@ -7,7 +7,7 @@
 const char *token_type_str[] = {
   "SPACE", "IDN", "OCT", "DEC", "HEX", "ADD", "SUB", "MUL", "DIV", 
   "GT", "LT", "GE", "LE", "EQ", "NEQ", "SLP", "SRP", "SEM", "KEY", 
-  "ILOCT", "ILHEX"
+  "ILOCT", "ILHEX", "OTHER"
 };
 
 const char *keyword_type_str[] = {
@@ -72,6 +72,7 @@ bool OPERATOR(char c) {
       return true;
     default: return false;
   }
+  return -1;
 }
 
 static void print_keyword(int keyword_type) {

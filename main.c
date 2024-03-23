@@ -3,7 +3,8 @@
 #include <stdlib.h>
 #include "fsm.h"
 
-#define DEFAULT_INPUT "1 + 2 * 3"
+#define DEFAULT_INPUT "0 92+data>= 0x1f 09 ;\
+while"
 
 int main(int argc, char **argv) {
   char *str;
@@ -14,7 +15,7 @@ int main(int argc, char **argv) {
     strcpy(str, DEFAULT_INPUT);
   } else {
     input_file = argv[1];
-    FILE *fp = fopen(input_file, "r");
+    FILE* fp = fopen(input_file, "r");
     if (fp == NULL) {
       fprintf(stderr, "Error: Cannot open file %s\n", input_file);
       return 1;
@@ -25,6 +26,7 @@ int main(int argc, char **argv) {
     fseek(fp, 0, SEEK_SET);
 
     str = (char *)malloc(fsize + 1);
+    memset(str, sizeof str, '\0');
     fread(str, 1, fsize, fp);
     fclose(fp);
     str[fsize] = '\0';
