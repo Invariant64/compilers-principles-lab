@@ -27,14 +27,14 @@ int main(int argc, char **argv) {
     str = (char *)malloc(fsize + 1);
     fread(str, 1, fsize, fp);
     fclose(fp);
-    str[fsize] = 0;
+    str[fsize] = '\0';
   }
 
   struct token_t tokens[1024];
   int nr_tokens = 0;
 
   char *p = str;
-  while (*p) {
+  while (p && *p) {
     p = fsm(p, &tokens[nr_tokens]);
     nr_tokens++;
   }

@@ -44,13 +44,15 @@ struct token_t {
 
 void print_token(int token_type, char *value);
 void print_tokens(struct token_t *tokens, int nr_tokens);
-bool NUMBER(char c);
+
+bool SPACE(char c);
+bool NUMBER(char c, int from, int to);
+bool LETTER(char c, char from, char to);
+bool XLETTER(char c, char from, char to);
+bool ALETTER(char c);
 bool OCTNUM(char c);
 bool HEXNUM(char c);
-bool ILHEX(char c);
-bool LETTER(char c);
-int RESERVEDWORD(char *c);
-int PUNCTUATION(char c);
-int OPERATOR(char *c);
-bool SPACE(char c);
+bool OPERATOR(char c);
+bool OTHERS(char c, const char *s);
+
 #endif // __TOKENS_H__

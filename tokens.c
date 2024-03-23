@@ -1,6 +1,8 @@
 #include "tokens.h"
 #include <stdio.h>
+#include <stdlib.h>
 #include <assert.h>
+#include "string.h"
 
 const char *token_type_str[] = {
   "SPACE", "IDN", "OCT", "DEC", "HEX", "ADD", "SUB", "MUL", "DIV", 
@@ -18,79 +20,59 @@ const char *keyword_type_str[] = {
 bool SPACE(char c) {
   return c == ' ' || c == '\t' || c == '\n';
 }
-bool NUMBER(char c) {
-  return c >= '0' && c <= '9';
-}
-bool OCTNUM(char c)
-{
-  return c >= '0' && c <= '7';
-}
-bool HEXNUM(char c)
-{
-  return (c >= 0 && c <= 9) || (c >= 'a' && c <= 'f') || (c >= 'A' && c <= 'F');
-}
-bool ILHEX(char c)
-{
-  return (c >= 0 && c <= 9) || (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z');
-}
-bool LETTER(char c) {
-  return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z');
-}
-int PUCTUATION(char c)
-{
-  switch (c) {
-    case '(': return TK_SLP;
-    case ')': return TK_SRP;
-    case ';': return TK_SEM;
-    default: return -1;
-  }
-}
-int OPERATOR(char *c)
-{
-  switch (*c) {
-    case '+': return TK_ADD;
-    case '-': return TK_SUB;
-    case '*': return TK_MUL;
-    case '/': return TK_DIV;
-    case '>': 
-      if(*(c + 1) == '=') return TK_GE;
-      else return TK_GT;
-    case '<': 
-      if(*(c + 1) == '=') return TK_LE;
-      else return TK_LT;
-    case '=': return TK_EQ;
-    case '!': 
-      if(*(c + 1) == '=') return TK_NEQ;
-      else return -1;
-    default: return -1;
-  }
-}
-int RESERVEDWORD(char *c)
-{
-  switch (*c) {
-    case 'i':
-      if (strcmp(c, "if") == 0) return KW_IF;
-      
-    case 't':
-      if (strcmp(c, "then") == 0) return KW_THEN;
-      
-    case 'e':
-      if (strcmp(c, "else") == 0) return KW_ELSE;
-      else if (strcmp(c, "end") == 0) return KW_END;
-      
-    case 'w':
-      if (strcmp(c, "while") == 0) return KW_WHILE;
-      
-    case 'd':
-      if (strcmp(c, "do") == 0) return KW_DO;
-      
-    case 'b':
-      if (strcmp(c, "begin") == 0) return KW_BEGIN;
-      
-    default: return -1;
-  }
+
+bool NUMBER(char c, int from, int to) {
+  return c >= from + '0' && c <= to + '0';
 }
 
+bool LETTER(char c, char from, char to) {
+  return c >= from && c <= to;
+}
+
+bool XLETTER(char c, char from, char to) {
+  if (from <= 'z' && from >= 'a') {
+    return LETTER(c, from, to) || LETTER(c, from - 'a' + 'A', to - 'a' + 'A');
+  } else if (from <= 'Z' && from >= 'A') {
+    return LETTER(c, from, to) || LETTER(c, from - 'A' + 'a', to - 'A' + 'a');
+  }
+  return false;
+}
+
+bool ALETTER(char c) {
+  return XLETTER(c, 'a', 'z');
+}
+
+bool OCTNUM(char c) {
+  return NUMBER(c, 0, 7);
+}
+
+bool HEXNUM(char c) {
+  return NUMBER(c, 0, 9) || LETTER(c, 'a', 'f');
+}
+
+bool OTHERS(char c, const char *s) {
+  for (int i = 0; s[i]; i++) {
+    if (c == s[i]) return true;
+  }
+  return false;
+}
+
+bool OPERATOR(char c) {
+  switch (c) {
+    case '+':
+    case '-':
+    case '*':
+    case '/':
+    case '>': 
+    case '<':
+    case '=':
+    case '(':
+    case ')':
+    case ';':
+      return true;
+    default: return false;
+  }
+}
 
 static void print_keyword(int keyword_type) {
   assert(keyword_type < NR_KEYWORDS);
