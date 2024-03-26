@@ -6,9 +6,10 @@
 enum State {
   S1, S2, S3, S4, S5, S6, S7, S8, S9, S10,
   S11, S12, S13, S14, S15, S16, S17, S18, S19, S20,
-  S21,S22,
+  S21, S22,
   INVALID_STATE
 };
+
 int state_transfer(int state, char cur) {
   switch (state) {
     case S1:
@@ -30,38 +31,37 @@ int state_transfer(int state, char cur) {
       if (XLETTER(cur, 'g', 'z')) return S18;
       return INVALID_STATE;
     case S4:
-      if(XLETTER(cur,'a','f') || NUMBER(cur, 0, 9)) return S4;
-      if(XLETTER(cur,'g','z')) return S18;
+      if (XLETTER(cur, 'a', 'f') || NUMBER(cur, 0, 9)) return S4;
+      if (XLETTER(cur, 'g', 'z')) return S18;
       return S5;
     case S6:
-        if(NUMBER(cur,0, 7)) return S6;
-	    if (NUMBER(cur,8, 9)) return S16;
-	    return S7;
+      if (NUMBER(cur, 0, 7)) return S6;
+      if (NUMBER(cur, 8, 9)) return S16;
+      return S7;
     case S8:
-        if (NUMBER(cur, 0, 9)) return S8;
-        return S9;
+      if (NUMBER(cur, 0, 9)) return S8;
+      return S9;
     case S10:
-        return S13;
+      return S13;
     case S11:
-        if (cur == '=')     return S10;
-        else                return S13;
+      if (cur == '=')     return S10;
+      else                return S13;
     case S12:
-        if (cur == '=')     return S10;
-        else if(cur == '>') return S10;
-        else                return S13;
+      if (cur == '=')     return S10;
+      else if (cur == '>') return S10;
+      else                return S13;
     case S14:
-        if(ALETTER(cur) || NUMBER(cur, 0, 9)) return S14;
-		return S15;
+      if (ALETTER(cur) || NUMBER(cur, 0, 9)) return S14;
+      return S15;
     case S16:
-		if(NUMBER(cur, 0, 9)) return S16;
-        return S17;
+      if (NUMBER(cur, 0, 9)) return S16;
+      return S17;
     case S18:
-        if(XLETTER(cur, 'a', 'z') || NUMBER(cur,0,9)) return S18;
-		return S19;
+      if (XLETTER(cur, 'a', 'z') || NUMBER(cur, 0, 9)) return S18;
+      return S19;
     case S20:
       if (SPACE(cur)) return S20;
       return S21;
-    // TODO: more states' transfer
   }
   return -1;
 }
@@ -71,20 +71,16 @@ char *fsm(char *str, struct token_t *token) {
   char *cur = str;
   token->type = -1;
   while (1) {
-    // TODO: terminal states 
     switch (state) {
-        case S5:  token->type = TK_HEX; break;
-        case S7:  token->type = TK_OCT; break;
-        case S9:  token->type = TK_DEC; break;
-        case S17: token->type = TK_ILOCT; break;
-        case S19: token->type = TK_ILHEX; break;
-        case S13: token->type = OP_TYPE(str); break;
-        case S15: 
-             if(KEYWORD(str,cur - str - 1) == true) token->type = TK_KEY;
-            else token->type = TK_IDN; 
-            break;
-        case S21: token->type = TK_SPACE; break;
-        case -1: return NULL;
+      case S5:  token->type = TK_HEX; break;
+      case S7:  token->type = TK_OCT; break;
+      case S9:  token->type = TK_DEC; break;
+      case S17: token->type = TK_ILOCT; break;
+      case S19: token->type = TK_ILHEX; break;
+      case S13: token->type = OP_TYPE(str); break;
+      case S15: token->type = KEYWORD(str, cur - str - 1) ? TK_KEY : TK_IDN; break;
+      case S21: token->type = TK_SPACE; break;
+      case INVALID_STATE: return NULL;
     }
     if (token->type != -1) break;
     state = state_transfer(state, *cur);
@@ -93,11 +89,10 @@ char *fsm(char *str, struct token_t *token) {
   cur--;
   switch (state) {
     case S15:
-        if (token->type == TK_KEY)
-        {
-            sprintf(token->value, "%d", KEYWORD_TYPE(str, cur - str));
-            break;
-        }
+      if (token->type == TK_KEY) {
+        sprintf(token->value, "%d", KEYWORD_TYPE(str, cur - str));
+        break;
+      }
     case S5:
     case S7:
     case S9:
@@ -107,6 +102,6 @@ char *fsm(char *str, struct token_t *token) {
       strncpy(token->value, str, cur - str);
       token->value[cur - str] = '\0';
   }
-  
+
   return cur;
 }

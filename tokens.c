@@ -5,8 +5,8 @@
 #include "string.h"
 
 const char *token_type_str[] = {
-  "SPACE", "IDN", "OCT", "DEC", "HEX", "ADD", "SUB", "MUL", "DIV", 
-  "GT", "LT", "GE", "LE", "EQ", "NEQ", "SLP", "SRP", "SEM", "KEY", 
+  "SPACE", "IDN", "OCT", "DEC", "HEX", "ADD", "SUB", "MUL", "DIV",
+  "GT", "LT", "GE", "LE", "EQ", "NEQ", "SLP", "SRP", "SEM", "KEY",
   "ILOCT", "ILHEX", "OTHER"
 };
 
@@ -32,7 +32,8 @@ bool LETTER(char c, char from, char to) {
 bool XLETTER(char c, char from, char to) {
   if (from <= 'z' && from >= 'a') {
     return LETTER(c, from, to) || LETTER(c, from - 'a' + 'A', to - 'a' + 'A');
-  } else if (from <= 'Z' && from >= 'A') {
+  }
+  else if (from <= 'Z' && from >= 'A') {
     return LETTER(c, from, to) || LETTER(c, from - 'A' + 'a', to - 'A' + 'a');
   }
   return false;
@@ -58,24 +59,16 @@ bool OTHERS(char c, const char *s) {
 }
 
 bool KEYWORD(char *c, int len) {
-  if (strncmp(c, "if", len) == 0) return true;
-  if (strncmp(c, "then", len) == 0) return true;
-  if (strncmp(c, "else", len) == 0) return true;
-  if (strncmp(c, "while", len) == 0) return true;
-  if (strncmp(c, "do", len) == 0) return true;
-  if (strncmp(c, "begin", len) == 0) return true;
-  if (strncmp(c, "end", len) == 0) return true;
+  for (int i = 0; i < NR_KEYWORDS; i++) {
+    if (strncmp(c, keyword_type_str[i], len) == 0) return true;
+  }
   return false;
 }
 
 int KEYWORD_TYPE(char *c, int len) {
-  if (strncmp(c, "if", len) == 0) return KW_IF;
-  if (strncmp(c, "then", len) == 0) return KW_THEN;
-  if (strncmp(c, "else", len) == 0) return KW_ELSE;
-  if (strncmp(c, "while", len) == 0) return KW_WHILE;
-  if (strncmp(c, "do", len) == 0) return KW_DO;
-  if (strncmp(c, "begin", len) == 0) return KW_BEGIN;
-  if (strncmp(c, "end", len) == 0) return KW_END;
+  for (int i = 0; i < NR_KEYWORDS; i++) {
+    if (strncmp(c, keyword_type_str[i], len) == 0) return i;
+  }
   return -1;
 }
 
@@ -88,8 +81,7 @@ bool OPERATOR(char c) {
     case '*':
     case '(':
     case ')':
-    case ';':
-        return true;
+    case ';': return true;
     default: return false;
   }
 }
@@ -100,12 +92,12 @@ int OP_TYPE(char *c) {
     case '-': return TK_SUB;
     case '*': return TK_MUL;
     case '/': return TK_DIV;
-    case '>': 
-      if(*(c+1) == '=') return TK_GE;
+    case '>':
+      if (*(c + 1) == '=') return TK_GE;
       else return TK_GT;
-    case '<': 
-      if(*(c+1) == '=') return TK_LE;
-      else if(*(c+1) == '>') return TK_NEQ;
+    case '<':
+      if (*(c + 1) == '=') return TK_LE;
+      else if (*(c + 1) == '>') return TK_NEQ;
       else return TK_LT;
     case '=': return TK_EQ;
     case '!': return TK_NEQ;

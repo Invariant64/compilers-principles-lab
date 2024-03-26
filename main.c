@@ -12,9 +12,10 @@ int main(int argc, char **argv) {
   if (argc == 1) {
     str = (char *)malloc(strlen(DEFAULT_INPUT) + 1);
     strcpy(str, DEFAULT_INPUT);
-  } else {
+  }
+  else {
     input_file = argv[1];
-    FILE* fp = fopen(input_file, "r");
+    FILE *fp = fopen(input_file, "r");
     if (fp == NULL) {
       fprintf(stderr, "Error: Cannot open file %s\n", input_file);
       return 1;
