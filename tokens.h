@@ -26,6 +26,7 @@ enum token_type {
   TK_ILOCT,  // Invalid octal
   TK_ILHEX,  // Invalid hexadecimals
   TK_OTHER,  // Other
+  TK_INVALID // Invalid
 };
 
 enum keyword_type {

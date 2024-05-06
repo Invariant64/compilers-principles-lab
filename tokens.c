@@ -7,7 +7,7 @@
 const char *token_type_str[] = {
   "SPACE", "IDN", "OCT", "DEC", "HEX", "ADD", "SUB", "MUL", "DIV",
   "GT", "LT", "GE", "LE", "EQ", "NEQ", "SLP", "SRP", "SEM", "KEY",
-  "ILOCT", "ILHEX", "OTHER"
+  "ILOCT", "ILHEX", "OTHER", "INVALID"
 };
 
 const char *keyword_type_str[] = {
@@ -122,6 +122,7 @@ void print_token(int token_type, char *value) {
     case TK_HEX:
     case TK_ILOCT:
     case TK_ILHEX:
+    case TK_INVALID:
       printf("%s\n", value);
       break;
     case TK_KEY:
