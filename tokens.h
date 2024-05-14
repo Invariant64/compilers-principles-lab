@@ -39,6 +39,8 @@ enum keyword_type {
   KW_END,   // End
 };
 
+const char* keyword_type_str[];
+
 struct token_t {
   enum token_type type;
   char value[MAX_TOKEN_LEN];
