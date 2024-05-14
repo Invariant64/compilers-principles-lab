@@ -3,6 +3,7 @@
 #include <stdlib.h>
 
 #include "lex.h"
+#include"procedures.h"
 
 #define DEFAULT_INPUT "07 0x5f 0x1h 0g"
 
@@ -45,6 +46,23 @@ int main(int argc, char **argv) {
   }
   
   print_tokens(tokens, nr_tokens);
+
+  struct variable* P_node = (struct variable*)malloc(sizeof(struct variable));
+  strcpy(P_node->name, "P");
+  P_node->brothers = NULL;
+  P_node->father = NULL;
+  P_node->sons = NULL;
+
+  int temp_index = 0;
+
+  if (P(tokens, &temp_index, nr_tokens, P_node) == 1) {
+      printf("分析成功！\n");
+  }
+  else {
+      printf("分析失败\n");
+  }
+  
+  print_tree(P_node);
 
   free(str);
 
