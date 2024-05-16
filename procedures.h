@@ -8,14 +8,14 @@ extern "C" {
 	struct variable
 	{
 		char name[7];
-		struct variable* sons; //º¢×ÓÁ´±íµÄÍ·½áµã£¬¼´³¤×Ó
+		struct variable* sons; //å­©å­é“¾è¡¨çš„å¤´ç»“ç‚¹ï¼Œå³é•¿å­
 		struct variable* father;
-		struct variable* brothers; //Ö¸ÏòÏÂÒ»¸öĞÖµÜ½áµãµÄÖ¸Õë
+		struct variable* brothers; //æŒ‡å‘ä¸‹ä¸€ä¸ªå…„å¼Ÿç»“ç‚¹çš„æŒ‡é’ˆ
 	};
 
 
 
-	//´«ÈëÊ¶±ğµÄÈ«²¿token£¬²¢´«ÈëĞèÒª·ÖÎöµÄtokenµÄË÷Òı¡¢tokenµÄÊıÁ¿£¬ĞèÒªÊä³öµÄ²úÉúÊ½Êı×é£¬·µ»Ø±¾º¯ÊıÊ¶±ğµÄ×´Ì¬
+	//ä¼ å…¥è¯†åˆ«çš„å…¨éƒ¨tokenï¼Œå¹¶ä¼ å…¥éœ€è¦åˆ†æçš„tokençš„ç´¢å¼•ã€tokençš„æ•°é‡ï¼Œéœ€è¦è¾“å‡ºçš„äº§ç”Ÿå¼æ•°ç»„ï¼Œè¿”å›æœ¬å‡½æ•°è¯†åˆ«çš„çŠ¶æ€
 	int A(struct token_t* tokens, int* index, int length, struct variable* A_node);
 	int B(struct token_t* tokens, int* index, int length, struct variable* B_node);
 	int C(struct token_t* tokens, int* index, int length, struct variable* C_node);
@@ -29,7 +29,7 @@ extern "C" {
 	int T(struct token_t* tokens, int* index, int length, struct variable* T_node);
 
 
-	void print_tree(struct variable* node); //´òÓ¡Óï·¨Ê÷
+	void print_tree(struct variable* node); //æ‰“å°è¯­æ³•æ ‘
 
 	void print_GraphTree(struct variable* node);
 #ifdef __cplusplus
