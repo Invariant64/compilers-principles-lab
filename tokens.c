@@ -60,7 +60,9 @@ bool OTHERS(char c, const char *s) {
 
 bool KEYWORD(char *c, int len) {
   for (int i = 0; i < NR_KEYWORDS; i++) {
-    if (strncmp(c, keyword_type_str[i], len) == 0) return true;
+    int lk = strlen(keyword_type_str[i]);
+    int l = len < lk ? lk : len;
+    if (strncmp(c, keyword_type_str[i], l) == 0) return true;
   }
   return false;
 }
