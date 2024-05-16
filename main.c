@@ -56,7 +56,7 @@ int main(int argc, char** argv) {
 	int temp_index = 0;
 
 	if (P(tokens, &temp_index, nr_tokens, P_node) == 0) {
-		printf("Fail£¡\n");
+		printf("Failed\n");
 	}
 	else {
 		printf("Success!\n");
@@ -64,7 +64,6 @@ int main(int argc, char** argv) {
 
 	//print_tree(P_node);
 	print_GraphTree(P_node);
-	//system("dot -Tpng analysisTree.dot -o analysisTree.png");
 
 	free(str);
 

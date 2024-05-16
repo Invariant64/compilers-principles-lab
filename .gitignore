@@ -8,3 +8,6 @@ x64/
 /compilers_principles_lab.vcxproj
 /compilers_principles_lab.vcxproj.filters
 /compilers_principles_lab.vcxproj.user
+
+analysisTree.dot
+analysisTree.png

@@ -12,6 +12,9 @@ BUILD_DIR = $(LOCAL_PATH)/build
 
 default: $(BUILD_DIR)/$(TARGET)
 
+image:
+	dot -Tpng analysisTree.dot -o analysisTree.png
+
 $(BUILD_DIR)/$(TARGET): $(CSRC)
 	@mkdir -p $(BUILD_DIR)
 	$(CC) $(CFLAGS) -o $@ $^
