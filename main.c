@@ -64,7 +64,7 @@ int main(int argc, char** argv) {
 
 	//print_tree(P_node);
 	print_GraphTree(P_node);
-	//system("dot -Tpng analysisTree.dot -o analysisTree.png");
+	system("dot -Tpng analysisTree.dot -o analysisTree.png");
 
 	free(str);
 

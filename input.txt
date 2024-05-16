@@ -1,1 +1,1 @@
-WHILE A<0 DO A=A+1
+WHILE (a3+15)>0xa DO IF x2=07 THEN WHILE y<z DO y=x*y/z; c=b*c+d;
