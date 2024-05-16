@@ -1,10 +1,10 @@
 LOCAL_PATH = $(abspath .)
 
-CSRC = $(shell find $(LOCAL_PATH) -name "*.c")
+CSRC = $(shell find $(LOCAL_PATH) -name "*.c" -o -name "*.cpp")
 
-CC = gcc
+CC = g++
 
-CFLAGS = -Wall -Werror
+CFLAGS = -Wall
 
 TARGET = main
 

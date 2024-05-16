@@ -10,7 +10,7 @@ const char *token_type_str[] = {
   "ILOCT", "ILHEX", "OTHER", "INVALID"
 };
 
-extern const char* keyword_type_str[] = {
+const char* keyword_type_str[] = {
   "IF", "THEN", "ELSE", "WHILE", "DO", "BEGIN", "END"
 };
 
