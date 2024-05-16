@@ -30,6 +30,8 @@ extern "C" {
 
 
 	void print_tree(struct variable* node); //´òÓ¡Óï·¨Ê÷
+
+	void print_GraphTree(struct variable* node);
 #ifdef __cplusplus
 }
 #endif
