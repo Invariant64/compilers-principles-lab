@@ -1,0 +1,14 @@
+P-> SA
+A-> P | $
+S-> 1=E
+S-> if C then S H
+H-> else S | $
+S-> while C do S
+C-> EJ
+J-> >E | <E | =E
+E-> TB
+B-> +TB | -TB | $
+T-> FD
+D-> *FD | /FD | $
+F-> (E) | 1 | 2 | 3 | 4
+#
