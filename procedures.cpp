@@ -72,10 +72,8 @@ int B(struct token_t* tokens, int* index, int length, struct variable* B_node) {
 	else if (tokens[*index].type == TK_KEY && !strcmp(keyword_type_str[atoi(tokens[*index].value)], "ELSE") ||
 		tokens[*index].type == TK_KEY && !strcmp(keyword_type_str[atoi(tokens[*index].value)], "THEN") ||
 		tokens[*index].type == TK_KEY && !strcmp(keyword_type_str[atoi(tokens[*index].value)], "DO") ||
-		tokens[*index].type == TK_KEY && !strcmp(keyword_type_str[atoi(tokens[*index].value)], "IF") ||
-		tokens[*index].type == TK_KEY && !strcmp(keyword_type_str[atoi(tokens[*index].value)], "WHILE") ||
 		tokens[*index].type == TK_SRP || tokens[*index].type == TK_GT || tokens[*index].type == TK_LT ||
-		tokens[*index].type == TK_EQ || tokens[*index].type == TK_IDN || *index >= length - 1) {
+		tokens[*index].type == TK_EQ || tokens[*index].type == TK_SEM) {
 
 		struct variable* V_node = (struct variable*)malloc(sizeof(struct variable));
 		strcpy(V_node->name, "ε");
@@ -133,7 +131,7 @@ int C(struct token_t* tokens, int* index, int length, struct variable* C_node) {
 }
 
 int D(struct token_t* tokens, int* index, int length, struct variable* D_node) {
-	if (tokens->type == TK_MUL || tokens->type == TK_DIV) {
+	if (tokens[*index].type == TK_MUL || tokens[*index].type == TK_DIV) {
 		struct variable* mul_div = (struct variable*)malloc(sizeof(struct variable));
 		struct variable* F_node = (struct variable*)malloc(sizeof(struct variable));
 		struct variable* D_node2 = (struct variable*)malloc(sizeof(struct variable));
@@ -172,11 +170,9 @@ int D(struct token_t* tokens, int* index, int length, struct variable* D_node) {
 	else if (tokens[*index].type == TK_KEY && !strcmp(keyword_type_str[atoi(tokens[*index].value)], "ELSE") ||
 		tokens[*index].type == TK_KEY && !strcmp(keyword_type_str[atoi(tokens[*index].value)], "THEN") ||
 		tokens[*index].type == TK_KEY && !strcmp(keyword_type_str[atoi(tokens[*index].value)], "DO") ||
-		tokens[*index].type == TK_KEY && !strcmp(keyword_type_str[atoi(tokens[*index].value)], "IF") ||
-		tokens[*index].type == TK_KEY && !strcmp(keyword_type_str[atoi(tokens[*index].value)], "WHILE") ||
 		tokens[*index].type == TK_SRP || tokens[*index].type == TK_ADD || tokens[*index].type == TK_SUB ||
 		tokens[*index].type == TK_GT || tokens[*index].type == TK_LT || tokens[*index].type == TK_EQ ||
-		tokens[*index].type == TK_IDN || *index >= length - 1) {
+		tokens[*index].type == TK_SEM) {
 
 		struct variable* V_node = (struct variable*)malloc(sizeof(struct variable));
 		strcpy(V_node->name, "ε");
@@ -320,9 +316,7 @@ int H(struct token_t* tokens, int* index, int length, struct variable* H_node) {
 			return 2;
 		}
 	}
-	else if (tokens[*index].type == TK_KEY && !strcmp(keyword_type_str[atoi(tokens[*index].value)], "IF") ||
-		tokens[*index].type == TK_KEY && !strcmp(keyword_type_str[atoi(tokens[*index].value)], "WHILE") ||
-		tokens[*index].type == TK_IDN || *index >= length - 1) {
+	else if (tokens[*index].type == TK_SEM) {
 		struct variable* V_node = (struct variable*)malloc(sizeof(struct variable));
 		strcpy(V_node->name, "ε");
 		V_node->brothers = NULL;
@@ -381,18 +375,23 @@ int P(struct token_t* tokens, int* index, int length, struct variable* P_node) {
 		tokens[*index].type == TK_KEY && !strcmp(keyword_type_str[atoi(tokens[*index].value)], "WHILE") ||
 		tokens[*index].type == TK_IDN) {
 		struct variable* S_node = (struct variable*)malloc(sizeof(struct variable));
+		struct variable* Sem_node = (struct variable*)malloc(sizeof(struct variable));
 		struct variable* A_node = (struct variable*)malloc(sizeof(struct variable));
 		//赋名
 		strcpy(S_node->name, "S");
+		strcpy(Sem_node->name, ";");
 		strcpy(A_node->name, "A");
 		//设置兄弟
-		S_node->brothers = A_node;
+		S_node->brothers = Sem_node;
+		Sem_node->brothers = A_node;
 		A_node->brothers = NULL;
 		//设置父亲
 		S_node->father = P_node;
+		Sem_node->father = P_node;
 		A_node->father = P_node;
 		//设置默认长子
 		S_node->sons = NULL;
+		Sem_node->sons = NULL;
 		A_node->sons = NULL;
 		//设置确定长子
 		P_node->sons = S_node;
@@ -401,10 +400,22 @@ int P(struct token_t* tokens, int* index, int length, struct variable* P_node) {
 		int result = S(tokens, index, length, S_node);
 		if (result == 1) {
 			(*index)++;
-			return A(tokens, index, length, A_node);
+			if (tokens[*index].type == TK_SEM) {
+				(*index)++;
+				return A(tokens, index, length, A_node);
+			}
+			else {
+				return 0;
+			}
 		}
 		else if (result == 2) {
-			return A(tokens, index, length, A_node);
+			if (tokens[*index].type == TK_SEM) {
+				(*index)++;
+				return A(tokens, index, length, A_node);
+			}
+			else {
+				return 0;
+			}
 		}
 		else if (result == 0) {
 			return 0;
