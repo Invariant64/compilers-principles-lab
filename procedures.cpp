@@ -308,6 +308,9 @@ int H(struct token_t* tokens, int* index, int length, struct variable* H_node) {
 		if (result == 1) {
 			return 1;
 		}
+		else if (result == 2) {
+			return 2;
+		}
 		else { //回溯，使用空产生式
 			strcpy(H_node->name, "ε");
 			H_node->sons = NULL;
