@@ -62,8 +62,10 @@ int main(int argc, char** argv) {
 		printf("Success!\n");
 	}
 
-	//print_tree(P_node);
 	print_GraphTree(P_node);
+
+	void do_translate(struct variable *node);
+	do_translate(P_node);
 
 	free(str);
 
