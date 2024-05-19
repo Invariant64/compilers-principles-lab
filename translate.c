@@ -261,7 +261,7 @@ void action(struct variable *node, struct variable *sons[], int type) {
       sprintf(tempt, "{{%d}}", zipper_push(&node->info.texit));
       sprintf(tempf, "{{%d}}", zipper_push(&node->info.fexit));
       node->info.code = char_concat(12, sons[0]->info.code, sons[1]->info.code, "\tif ", sons[0]->info.place, 
-        sons[1]->info.op, sons[1]->info.place, "\tgoto ", tempt, "\n", "\tgoto ", tempf, "\n");
+        sons[1]->info.op, sons[1]->info.place, " goto ", tempt, "\n", "\tgoto ", tempf, "\n");
       break;
     case 9:
       // J -> > E
@@ -280,7 +280,7 @@ void action(struct variable *node, struct variable *sons[], int type) {
       // E -> T B
       printf("E -> T B\n");
       node->info.place = new_temp();
-      node->info.code = char_concat(9, sons[0]->info.code, sons[1]->info.code, "\n\t", node->info.place, " := ", 
+      node->info.code = char_concat(9, sons[0]->info.code, sons[1]->info.code, "\t", node->info.place, " := ", 
         sons[0]->info.place, sons[1]->info.op, sons[1]->info.place, "\n");
       
       printf("12: E -> T B\nE->place: %s\nE->code: %s\n", node->info.place, node->info.code);
@@ -296,7 +296,7 @@ void action(struct variable *node, struct variable *sons[], int type) {
         node->info.code = sons[1]->info.code;
       } else {
         node->info.place = new_temp();
-        node->info.code = char_concat(9, sons[1]->info.code, sons[2]->info.code, "\n\t", node->info.place, " := ", 
+        node->info.code = char_concat(9, sons[1]->info.code, sons[2]->info.code, "\t", node->info.place, " := ", 
           sons[1]->info.place, sons[2]->info.op, sons[2]->info.place, "\n");
       }
       break;
@@ -312,7 +312,7 @@ void action(struct variable *node, struct variable *sons[], int type) {
       // T -> F D
       printf("T -> F D\n");
       node->info.place = new_temp();
-      node->info.code = char_concat(8, sons[0]->info.code, sons[1]->info.code, "\n\t", node->info.place, " := ", 
+      node->info.code = char_concat(9, sons[0]->info.code, sons[1]->info.code, "\t", node->info.place, " := ", 
         sons[0]->info.place, sons[1]->info.op, sons[1]->info.place, "\n");
 
       printf("16: T -> F D\nT->place: %s\nT->code: %s\n", node->info.place, node->info.code);
@@ -328,7 +328,7 @@ void action(struct variable *node, struct variable *sons[], int type) {
         node->info.code = sons[1]->info.code;
       } else {
         node->info.place = new_temp();
-        node->info.code = char_concat(8, sons[1]->info.code, sons[2]->info.code, "\n\t", node->info.place, " := ", 
+        node->info.code = char_concat(9, sons[1]->info.code, sons[2]->info.code, "\t", node->info.place, " := ", 
           sons[1]->info.place, sons[2]->info.op, sons[2]->info.place, "\n");
       }
       break;
