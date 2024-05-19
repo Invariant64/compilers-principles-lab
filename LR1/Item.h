@@ -11,7 +11,7 @@
 #include <iomanip>
 using namespace std;
 
-//·µ»ØsµÄµÚÒ»¸ö´Ê
+//è¿”å›sçš„ç¬¬ä¸€ä¸ªè¯
 string firstWord(string s)
 {
     s += " ";
@@ -19,7 +19,7 @@ string firstWord(string s)
     return first;
 }
 
-//½«×Ö·û´®»®·ÖÎªÒ»¸ö¸ö´Ê
+//å°†å­—ç¬¦ä¸²åˆ’åˆ†ä¸ºä¸€ä¸ªä¸ªè¯
 vector<string> split(string s, string separator)
 {
     vector<string>v;
@@ -44,16 +44,16 @@ vector<string> split(string s, string separator)
 class Item
 {
 private:
-    string item;//ÏîÄ¿
-    string left;//ÏîÄ¿×ó²¿
-    string right;//ÏîÄ¿ÓÒ²¿
-    string symbol;//ÏòÇ°ËÑË÷·ûºÅ
+    string item;//é¡¹ç›®
+    string left;//é¡¹ç›®å·¦éƒ¨
+    string right;//é¡¹ç›®å³éƒ¨
+    string symbol;//å‘å‰æœç´¢ç¬¦å·
     static int count;
 
 public:
     int id;
 
-    //²ÎÊıÊÇ²úÉúÊ½
+    //å‚æ•°æ˜¯äº§ç”Ÿå¼
 
     Item(string i)
     {
@@ -61,13 +61,13 @@ public:
         left = i.substr(0, i.find("->"));
         right = i.substr(i.find("->") + 2);
         item = left + "->" + right;
-        symbol = "$";//³õÊ¼ÏòÇ°ËÑË÷·ûÎª"$"
+        symbol = "$";//åˆå§‹å‘å‰æœç´¢ç¬¦ä¸º"$"
 
         if (right.find(".") == string::npos)
             addDot(0);
     }
 
-    //²ÎÊıÊÇ×ó²¿ºÍÓÒ²¿
+    //å‚æ•°æ˜¯å·¦éƒ¨å’Œå³éƒ¨
     Item(string l, string r)
     {
         id = count++;
@@ -80,7 +80,7 @@ public:
             addDot(0);
     }
 
-    //²ÎÊıÊÇ×ó²¿ºÍÓÒ²¿ºÍÏòÇ°ËÑË÷·ûºÅ
+    //å‚æ•°æ˜¯å·¦éƒ¨å’Œå³éƒ¨å’Œå‘å‰æœç´¢ç¬¦å·
     Item(string l, string r, string s)
     {
         id = count++;
@@ -113,17 +113,17 @@ public:
     {
         return symbol;
     }
-    //ÕÒµãµÄÎ»ÖÃ
+    //æ‰¾ç‚¹çš„ä½ç½®
     int getDot(string item)
     {
         return item.find(".");
     }
-    //ÉèÖÃÏòÇ°ËÑË÷·ûºÅ
+    //è®¾ç½®å‘å‰æœç´¢ç¬¦å·
     void setSymbol(string new_symbol)
     {
         symbol = new_symbol;
     }
-    //¸øÎÄ·¨¼Óµã
+    //ç»™æ–‡æ³•åŠ ç‚¹
     void addDot(int pos)
     {
         if (right[pos] == '@')
@@ -136,7 +136,7 @@ public:
             right.insert(pos, " . ");
     }
 
-    //ÅĞ¶ÏÒ»¸öÏîÄ¿½ø¶ÈÊÇ·ñµ½½áÎ²
+    //åˆ¤æ–­ä¸€ä¸ªé¡¹ç›®è¿›åº¦æ˜¯å¦åˆ°ç»“å°¾
     int hasNextDot()
     {
         vector<string>buffer = split(right, ".");
@@ -146,7 +146,7 @@ public:
             return 0;
     }
 
-    //µÃµ½"."ºóÃæµÄÒ»¸öÎÄ·¨·ûºÅ
+    //å¾—åˆ°"."åé¢çš„ä¸€ä¸ªæ–‡æ³•ç¬¦å·
     string getPath()
     {
         vector<string>buffer = split(item, ".");
@@ -155,7 +155,7 @@ public:
         return first;
     }
 
-    //·µ»ØÏÂÒ»¸öµãµÄ´®
+    //è¿”å›ä¸‹ä¸€ä¸ªç‚¹çš„ä¸²
     string nextDot()
     {
         int dotPos = right.find(".");

@@ -38,25 +38,25 @@ void show_Closure();
 void show_Table();   
 
 
-struct C { //±Õ°üCLOSURE
+struct C { //é—­åŒ…CLOSURE
 	
-	vector< vector<char> > project; //ÏîÄ¿¼¯
+	vector< vector<char> > project; //é¡¹ç›®é›†
 	
-	vector< set<char> > outlook; //Õ¹Íû´®
+	vector< set<char> > outlook; //å±•æœ›ä¸²
 	
-	unordered_map<char, int> go; //GOº¯Êı
+	unordered_map<char, int> go; //GOå‡½æ•°
 };
 vector<C> c;
 
-//Êä³öÍØ¹ãÎÄ·¨
+//è¾“å‡ºæ‹“å¹¿æ–‡æ³•
 
 void show_G() {
 	
-	cout << "Ô­ÎÄ·¨ÍØ¹ãÎªÎÄ·¨G[M]£º" << endl;
+	cout << "åŸæ–‡æ³•æ‹“å¹¿ä¸ºæ–‡æ³•G[M]ï¼š" << endl;
 	
 	for (unsigned int i = 0; i < G.size(); i++) { 
 		
-		cout << i << "£©";
+		cout << i << "ï¼‰";
 		
 		for (unsigned int j = 0; j < G[i].size(); j++) {
 			
@@ -71,7 +71,7 @@ void show_G() {
 }
 
 
-//Êä³ö·ÇÖÕ½á·ûºÍÖÕ½á·û
+//è¾“å‡ºéç»ˆç»“ç¬¦å’Œç»ˆç»“ç¬¦
 
 void show_Symbol() {
 	
@@ -89,7 +89,7 @@ void show_Symbol() {
 }
 
 
-//Êä³öFirst¼¯
+//è¾“å‡ºFirsté›†
 
 void show_First() {
 	
@@ -116,24 +116,24 @@ void show_First() {
 
 
 
-//Êä³ö±Õ°ü
+//è¾“å‡ºé—­åŒ…
 
-void show_Closure() {  //ÏîÄ¿¼¯ºÍGOº¯ÊıÊä³öµ½Closure.txtÎÄ¼ş
+void show_Closure() {  //é¡¹ç›®é›†å’ŒGOå‡½æ•°è¾“å‡ºåˆ°Closure.txtæ–‡ä»¶
 	fstream f("Closure.txt", ios::out);
 	if (!f) {
-		cout << "Closure.txtÎÄ¼ş´ò¿ª³ö´í£¡" << endl;
+		cout << "Closure.txtæ–‡ä»¶æ‰“å¼€å‡ºé”™ï¼" << endl;
 		return;
 	}
-	f << "¸ÃÎÄ·¨µÄÏîÄ¿¼¯ºÍGOº¯Êı£º" << endl;
+	f << "è¯¥æ–‡æ³•çš„é¡¹ç›®é›†å’ŒGOå‡½æ•°ï¼š" << endl;
 	for (unsigned int i = 0; i < c.size(); i++) {
 		f << "I" << i << ":" << endl;
 		for (unsigned int j = 0; j < c[i].project.size(); j++) {
 			for (unsigned int k = 0; k < c[i].project[j].size(); k++) {
 				if (k == 1) f << "->";
-				if (c[i].project[j][k] == ' ') f << "¡¤";
+				if (c[i].project[j][k] == ' ') f << "Â·";
 				else f << c[i].project[j][k];
 			}
-			f << "£¬";
+			f << "ï¼Œ";
 			for (auto it : c[i].outlook[j]) {
 				if (it == *(c[i].outlook[j].begin())) f << it;
 				else f << "/" << it;
@@ -141,23 +141,23 @@ void show_Closure() {  //ÏîÄ¿¼¯ºÍGOº¯ÊıÊä³öµ½Closure.txtÎÄ¼ş
 			f << endl;
 		}
 		for (auto it : c[i].go) {
-			f << "GO(I" << i << "£¬" << it.first << ") = I" << it.second << endl;
+			f << "GO(I" << i << "ï¼Œ" << it.first << ") = I" << it.second << endl;
 		}
 		f << endl;
 	}
-	cout << "ÒÑ½«ÏîÄ¿¼¯ºÍGOº¯ÊıÉú³Éµ½Closure.txtÎÄ¼şÖĞ¡£" << endl << endl;
+	cout << "å·²å°†é¡¹ç›®é›†å’ŒGOå‡½æ•°ç”Ÿæˆåˆ°Closure.txtæ–‡ä»¶ä¸­ã€‚" << endl << endl;
 }
 
 
 
-//Êä³öLR·ÖÎö±í
+//è¾“å‡ºLRåˆ†æè¡¨
 
-void show_Table() {  //LR·ÖÎö±íÊä³öµ½LR_Table.txtÎÄ¼ş
+void show_Table() {  //LRåˆ†æè¡¨è¾“å‡ºåˆ°LR_Table.txtæ–‡ä»¶
 	
 	fstream f("LR_Table.txt", ios::out);
 	
 	if (!f) {
-		cout << "LR_Table.txtÎÄ¼ş´ò¿ª³ö´í£¡" << endl;
+		cout << "LR_Table.txtæ–‡ä»¶æ‰“å¼€å‡ºé”™ï¼" << endl;
 		return;
 	}
 	
@@ -195,7 +195,7 @@ void show_Table() {  //LR·ÖÎö±íÊä³öµ½LR_Table.txtÎÄ¼ş
 		f << endl;
 	}
 	f.close();
-	cout << "ÒÑ½«LR·ÖÎö±íÉú³Éµ½LR_Table.txtÎÄ¼şÖĞ¡£" << endl << endl;
+	cout << "å·²å°†LRåˆ†æè¡¨ç”Ÿæˆåˆ°LR_Table.txtæ–‡ä»¶ä¸­ã€‚" << endl << endl;
 	/*for (auto it1 : table) {
 		for (auto it2 : it1.first) {
 			cout << it2.first << it2.second << ":"<<it1.second<<endl;
@@ -205,7 +205,7 @@ void show_Table() {  //LR·ÖÎö±íÊä³öµ½LR_Table.txtÎÄ¼ş
 
 
 
-//¶ÁÈ¡ÎÄ·¨G[S]->G'[M]£¬²¢Çø·ÖÖÕ½á·ûºÍ·ÇÖÕ½á·û 
+//è¯»å–æ–‡æ³•G[S]->G'[M]ï¼Œå¹¶åŒºåˆ†ç»ˆç»“ç¬¦å’Œéç»ˆç»“ç¬¦ 
 
 void read_G() { 
 	char ch; 
@@ -216,7 +216,7 @@ void read_G() {
 	nts['M'] = m;
 	FILE* fp = fopen("production.txt", "r");
 	if (fp == NULL) {
-		cout << "ÎŞ·¨´ò¿ªÎÄ¼şproduction.txt" << endl;
+		cout << "æ— æ³•æ‰“å¼€æ–‡ä»¶production.txt" << endl;
 		exit(0);
 	}
 
@@ -264,7 +264,7 @@ void read_G() {
 
 
 
-//¼ÆËãFirst¼¯ºÏ
+//è®¡ç®—Firsté›†åˆ
 
 void get_First() { 
 	
@@ -284,10 +284,10 @@ void get_First() {
 		
 		change = 0;
 		
-		for (auto& it : nts) { //¶ÔÃ¿¸ö·ÇÖÕ½á·û
-			for (unsigned int i = 0; i < G.size(); i++) { //±éÀú²úÉúÊ½
+		for (auto& it : nts) { //å¯¹æ¯ä¸ªéç»ˆç»“ç¬¦
+			for (unsigned int i = 0; i < G.size(); i++) { //éå†äº§ç”Ÿå¼
 				if (G[i][0] == it.first) {
-					unsigned int size = it.second.size(); //²Ù×÷Ç°First(X)µÄ´óĞ¡
+					unsigned int size = it.second.size(); //æ“ä½œå‰First(X)çš„å¤§å°
 					unordered_map<char, set<char> >::iterator iter = ts.find(G[i][1]);
 					if (ts.find(G[i][1]) != ts.end() || G[i][1] == '$') { 
 						it.second.insert(G[i][1]);
@@ -327,13 +327,13 @@ void get_First() {
 
 
 
-//¼ÆËãCLOSURE£¬°üÀ¨GO
+//è®¡ç®—CLOSUREï¼ŒåŒ…æ‹¬GO
 
 void get_Closure() {  
 	
-	int i = 0; //±Õ°ü±àºÅ
+	int i = 0; //é—­åŒ…ç¼–å·
 	
-	C clo; //Éú³ÉµÚÒ»¸ö±Õ°ü£¨I0£©
+	C clo; //ç”Ÿæˆç¬¬ä¸€ä¸ªé—­åŒ…ï¼ˆI0ï¼‰
 	
 	c.push_back(clo);
 	
@@ -375,20 +375,20 @@ void get_Closure() {
 							int t = 0; 
 							while (kong) { 
 								kong = false;
-								if (k + t + 1 == c[i].project[j].size() - 1) {  //Çé¿öÒ»
+								if (k + t + 1 == c[i].project[j].size() - 1) {  //æƒ…å†µä¸€
 									for (auto it : c[i].outlook[j]) m.insert(it);
 								}
-								else if (ts.find(c[i].project[j][k + t + 2]) != ts.end()) {  //Çé¿ö¶ş
+								else if (ts.find(c[i].project[j][k + t + 2]) != ts.end()) {  //æƒ…å†µäºŒ
 									m.insert(c[i].project[j][k + 2 + t]);
 								}
-								else {  //Çé¿öÈı
+								else {  //æƒ…å†µä¸‰
 									set<char> m1((nts.find(c[i].project[j][k + 2 + t]))->second);
 									for (auto it : m1) {
-										if (it == '$') {  //º¬¿Õ×Ö
+										if (it == '$') {  //å«ç©ºå­—
 											kong = true;
 											t++;
 										}
-										else { //²»º¬¿Õ×Ö
+										else { //ä¸å«ç©ºå­—
 											m.insert(it);
 										}
 									}
@@ -460,28 +460,28 @@ void get_Closure() {
 				}
 			}
 		}
-		i++; //ÏÂÒ»±Õ°ü
+		i++; //ä¸‹ä¸€é—­åŒ…
 	}
 }
 
 
 
-//ÓÉCLOSURE¼ÆËãLR(1)·ÖÎö±ítable
+//ç”±CLOSUREè®¡ç®—LR(1)åˆ†æè¡¨table
 
 int get_Table() { 
 	
-	for (unsigned int i = 0; i < c.size(); i++) { //±éÀúËùÓĞ±Õ°ü
+	for (unsigned int i = 0; i < c.size(); i++) { //éå†æ‰€æœ‰é—­åŒ…
 		
-		for (unsigned int j = 0; j < c[i].project.size(); j++) { //±éÀúÃ¿¸ö±Õ°üÖĞµÄËùÓĞÏîÄ¿
+		for (unsigned int j = 0; j < c[i].project.size(); j++) { //éå†æ¯ä¸ªé—­åŒ…ä¸­çš„æ‰€æœ‰é¡¹ç›®
 			
-			for (unsigned int k = 0; k < c[i].project[j].size(); k++) { //É¨Ãè¸ÃÏîÄ¿,ÕÒµ½µ±Ç°Î»ÖÃ
+			for (unsigned int k = 0; k < c[i].project[j].size(); k++) { //æ‰«æè¯¥é¡¹ç›®,æ‰¾åˆ°å½“å‰ä½ç½®
 				
 				if (c[i].project[j][k] == ' ') {
 					//cout << 1 << endl;
 					/*
-					if (k == 0 && c[i].project[j][k + 1] == '$') { //ĞÎÈç ¡¾X->¡¤£¬¦Â¡¿£¬¹æÔ¼¿Õ´®
+					if (k == 0 && c[i].project[j][k + 1] == '$') { //å½¢å¦‚ ã€X->Â·ï¼ŒÎ²ã€‘ï¼Œè§„çº¦ç©ºä¸²
 						int id;
-						for (unsigned int x = 0; x < G.size(); x++) { //É¨ÃèG'[M]ÕÒµ½¶ÔÓ¦µÄ²úÉúÊ½µÄ±àºÅ
+						for (unsigned int x = 0; x < G.size(); x++) { //æ‰«æG'[M]æ‰¾åˆ°å¯¹åº”çš„äº§ç”Ÿå¼çš„ç¼–å·
 							vector<char> v(c[i].project[j]);
 							v.pop_back();
 							if (G[x] == v) {
@@ -493,15 +493,15 @@ int get_Table() {
 							map<string, char> m;
 							m[to_string(i)] = it;
 							if (table.find(m) != table.end() && table[m] != (string)"r" + to_string(id)) {
-								cout << "¸ÃÎÄ·¨²»ÊÇLR(1)ÎÄ·¨£¬´æÔÚ¶àÖØ¶¨ÒåÈë¿Ú£¡" << endl;
+								cout << "è¯¥æ–‡æ³•ä¸æ˜¯LR(1)æ–‡æ³•ï¼Œå­˜åœ¨å¤šé‡å®šä¹‰å…¥å£ï¼" << endl;
 								return 0;
 							}
 							else table[m] = (string)"r" + to_string(id);
 						}
 					}
-					else if (k == c[i].project[j].size() - 1 && c[i].project[j][k - 1] == '$') { //ĞÎÈç ¡¾X->$¡¤£¬¦Â¡¿£¬¹æÔ¼¿Õ´®
+					else if (k == c[i].project[j].size() - 1 && c[i].project[j][k - 1] == '$') { //å½¢å¦‚ ã€X->$Â·ï¼ŒÎ²ã€‘ï¼Œè§„çº¦ç©ºä¸²
                         int id;
-						for (unsigned int x = 0; x < G.size(); x++) { //É¨ÃèG'[M]ÕÒµ½¶ÔÓ¦µÄ²úÉúÊ½µÄ±àºÅ
+						for (unsigned int x = 0; x < G.size(); x++) { //æ‰«æG'[M]æ‰¾åˆ°å¯¹åº”çš„äº§ç”Ÿå¼çš„ç¼–å·
 							vector<char> v(c[i].project[j]);
 							v.pop_back();
 							if (G[x] == v) {
@@ -513,27 +513,27 @@ int get_Table() {
 							map<string, char> m;
 							m[to_string(i)] = it;
 							if (table.find(m) != table.end() && table[m] != (string)"r" + to_string(id)) {
-								cout << "¸ÃÎÄ·¨²»ÊÇLR(1)ÎÄ·¨£¬´æÔÚ¶àÖØ¶¨ÒåÈë¿Ú£¡" << endl;
+								cout << "è¯¥æ–‡æ³•ä¸æ˜¯LR(1)æ–‡æ³•ï¼Œå­˜åœ¨å¤šé‡å®šä¹‰å…¥å£ï¼" << endl;
 								return 0;
 							}
 							else table[m] = (string)"r" + to_string(id);
 						}
                     }*/
-					if (k == c[i].project[j].size() - 1) { //ĞÎÈç ¡¾X->¦Á¡¤£¬¦Â¡¿£¬¹éÔ¼/acc
+					if (k == c[i].project[j].size() - 1) { //å½¢å¦‚ ã€X->Î±Â·ï¼ŒÎ²ã€‘ï¼Œå½’çº¦/acc
 						
-						if (c[i].project[j][0] == 'M') {  //ĞÎÈç ¡¾M->X¡¤£¬#¡¿£¬Áîtable[i,#]=acc
+						if (c[i].project[j][0] == 'M') {  //å½¢å¦‚ ã€M->XÂ·ï¼Œ#ã€‘ï¼Œä»¤table[i,#]=acc
 							map<string, char> m;
 							m[to_string(i)] = '#';
 							
 							if (table.find(m) != table.end() && table[m] != "acc") {
-								cout << "¸ÃÎÄ·¨²»ÊÇLR(1)ÎÄ·¨£¬´æÔÚ¶àÖØ¶¨ÒåÈë¿Ú£¡" << endl;
+								cout << "è¯¥æ–‡æ³•ä¸æ˜¯LR(1)æ–‡æ³•ï¼Œå­˜åœ¨å¤šé‡å®šä¹‰å…¥å£ï¼" << endl;
 								return 0;
 							}
 							else table[m] = "acc";
 						}
-						else { //ĞÎÈç ¡¾X->¦Á¡¤£¬a¡¿£¬¹éÔ¼£¬Áîtable[i,a]=rj
+						else { //å½¢å¦‚ ã€X->Î±Â·ï¼Œaã€‘ï¼Œå½’çº¦ï¼Œä»¤table[i,a]=rj
 							int id;
-							for (unsigned int x = 0; x < G.size(); x++) { //É¨ÃèG'[M]ÕÒµ½¶ÔÓ¦µÄ²úÉúÊ½µÄ±àºÅ
+							for (unsigned int x = 0; x < G.size(); x++) { //æ‰«æG'[M]æ‰¾åˆ°å¯¹åº”çš„äº§ç”Ÿå¼çš„ç¼–å·
 								vector<char> v(c[i].project[j]);
 								v.pop_back();
 								if (G[x] == v) {
@@ -545,29 +545,29 @@ int get_Table() {
 								map<string, char> m;
 								m[to_string(i)] = it;
 								if (table.find(m) != table.end() && table[m] != (string)"r" + to_string(id)) {
-									cout << "¸ÃÎÄ·¨²»ÊÇLR(1)ÎÄ·¨£¬´æÔÚ¶àÖØ¶¨ÒåÈë¿Ú£¡" << endl;
+									cout << "è¯¥æ–‡æ³•ä¸æ˜¯LR(1)æ–‡æ³•ï¼Œå­˜åœ¨å¤šé‡å®šä¹‰å…¥å£ï¼" << endl;
 									return 0;
 								}
 								else table[m] = (string)"r" + to_string(id);
 							}
 						}
 					}
-					else { //ĞÎÈç ¡¾X->¦Á¡¤¦Â£¬¦Ã¡¿
+					else { //å½¢å¦‚ ã€X->Î±Â·Î²ï¼ŒÎ³ã€‘
 						char next = c[i].project[j][k + 1];
-						if (ts.find(next) != ts.end()) {  //ĞÎÈç ¡¾X->¦Á¡¤a¦Â£¬¦Ã¡¿,Áîtable[i,a]=sj
+						if (ts.find(next) != ts.end()) {  //å½¢å¦‚ ã€X->Î±Â·aÎ²ï¼ŒÎ³ã€‘,ä»¤table[i,a]=sj
 							map<string, char> m;
 							m[to_string(i)] = next;
 							if (table.find(m) != table.end() && table[m] != (string)"s" + to_string(c[i].go[next])) {
-								cout << "¸ÃÎÄ·¨²»ÊÇLR(1)ÎÄ·¨£¬´æÔÚ¶àÖØ¶¨ÒåÈë¿Ú£¡" << endl;
+								cout << "è¯¥æ–‡æ³•ä¸æ˜¯LR(1)æ–‡æ³•ï¼Œå­˜åœ¨å¤šé‡å®šä¹‰å…¥å£ï¼" << endl;
 								return 0;
 							}
 							else table[m] = (string)"s" + to_string(c[i].go[next]);
 						}
-						else { //ĞÎÈç ¡¾X->¦Á¡¤Y¦Â£¬¦Ã¡¿,Áîtable[i,Y]=j
+						else { //å½¢å¦‚ ã€X->Î±Â·YÎ²ï¼ŒÎ³ã€‘,ä»¤table[i,Y]=j
 							map<string, char> m;
 							m[to_string(i)] = next;
 							if (table.find(m) != table.end() && table[m] != to_string(c[i].go[next])) {
-								cout << "¸ÃÎÄ·¨²»ÊÇLR(1)ÎÄ·¨£¬´æÔÚ¶àÖØ¶¨ÒåÈë¿Ú£¡" << endl;
+								cout << "è¯¥æ–‡æ³•ä¸æ˜¯LR(1)æ–‡æ³•ï¼Œå­˜åœ¨å¤šé‡å®šä¹‰å…¥å£ï¼" << endl;
 								return 0;
 							}
 							else table[m] = to_string(c[i].go[next]);
@@ -599,9 +599,9 @@ int check(int time, int start_idx, int end_idx) {
 	fstream f("./sentence/sentence_" + to_string(time) + ".txt", ios::out); 
 	
 	if (!f) {
-		cout << "ÎŞ·¨´ò¿ªÎÄ¼şsentence.txt" << endl;
+		cout << "æ— æ³•æ‰“å¼€æ–‡ä»¶sentence.txt" << endl;
 	}
-	f << "²½Öè\t\t×´Ì¬Õ»\t\t·ûºÅÕ»\t\tÊäÈë´®\t\t¶¯×÷ËµÃ÷" << endl;
+	f << "æ­¥éª¤\t\tçŠ¶æ€æ ˆ\t\tç¬¦å·æ ˆ\t\tè¾“å…¥ä¸²\t\tåŠ¨ä½œè¯´æ˜" << endl;
 	
 	vector<string> status; 
 	vector<char> symbol; 
@@ -634,24 +634,24 @@ int check(int time, int start_idx, int end_idx) {
 		m[cur_status] = cur_symbol;
 		new_status = table[m];
 		if (new_status == "acc") {
-			cout << "·ÖÎö³É¹¦£¬¸ÃÓï¾äºÏ·¨£¡(¾ßÌå·ÖÎö¹ı³ÌÇë²é¿´ÎÄ¼şsentence_" << time << ".txt£©" << endl << endl;
-			f << "acc£º·ÖÎö³É¹¦" << endl;
+			cout << "åˆ†ææˆåŠŸï¼Œè¯¥è¯­å¥åˆæ³•ï¼(å…·ä½“åˆ†æè¿‡ç¨‹è¯·æŸ¥çœ‹æ–‡ä»¶sentence_" << time << ".txtï¼‰" << endl << endl;
+			f << "accï¼šåˆ†ææˆåŠŸ" << endl;
 			return 1;
 		}
-		else if (new_status[0] == 's') { //ĞÎÈç table[i,b]=sj£¬×´Ì¬sjÈëÕ»£¬²¢¶ÁÈëÒ»¸ö×Ö·û
-			status.push_back(new_status.substr(1)); //ÈëÕ»µÄ×´Ì¬ÒªÈ¥µôµÚÒ»¸ö×Ö·û¡®s¡¯
-			symbol.push_back(cur_symbol); //¶ÁÈëÒ»¸ö×Ö·û
+		else if (new_status[0] == 's') { //å½¢å¦‚ table[i,b]=sjï¼ŒçŠ¶æ€sjå…¥æ ˆï¼Œå¹¶è¯»å…¥ä¸€ä¸ªå­—ç¬¦
+			status.push_back(new_status.substr(1)); //å…¥æ ˆçš„çŠ¶æ€è¦å»æ‰ç¬¬ä¸€ä¸ªå­—ç¬¦â€˜sâ€™
+			symbol.push_back(cur_symbol); //è¯»å…¥ä¸€ä¸ªå­—ç¬¦
 			sentence = sentence.substr(1);
-			f << "ACTION[" << cur_status << "," << cur_symbol << "]=" << new_status << "£¬¼´×´Ì¬" << new_status << "ÈëÕ»" << endl;
+			f << "ACTION[" << cur_status << "," << cur_symbol << "]=" << new_status << "ï¼Œå³çŠ¶æ€" << new_status << "å…¥æ ˆ" << endl;
 		}
-		else if (new_status[0] == 'r') { //ĞÎÈç table[i,b]=rj£¬ÓÃ²úÉúÊ½G(j)¹éÔ¼£¬ÇÒtable[x,y]ÈëÕ»
-			new_status = new_status.substr(1); //È¥µô¡®r¡¯
-			f << "r" << new_status << "£ºÓÃ";
-			int gid = atoi(new_status.c_str()); //¼ÆËã²úÉúÊ½±àºÅ
-			int len = G[gid].size() - 1; //±»¹éÔ¼µÄ×Ö·û´®³¤¶È
-			char reduced_symbol = G[gid][0]; //¹éÔ¼µÃµ½µÄ·ÇÖÕ½á·û
+		else if (new_status[0] == 'r') { //å½¢å¦‚ table[i,b]=rjï¼Œç”¨äº§ç”Ÿå¼G(j)å½’çº¦ï¼Œä¸”table[x,y]å…¥æ ˆ
+			new_status = new_status.substr(1); //å»æ‰â€˜râ€™
+			f << "r" << new_status << "ï¼šç”¨";
+			int gid = atoi(new_status.c_str()); //è®¡ç®—äº§ç”Ÿå¼ç¼–å·
+			int len = G[gid].size() - 1; //è¢«å½’çº¦çš„å­—ç¬¦ä¸²é•¿åº¦
+			char reduced_symbol = G[gid][0]; //å½’çº¦å¾—åˆ°çš„éç»ˆç»“ç¬¦
 			for (int i = 0; i < len; i++) {
-				status.pop_back(); //¹éÔ¼£¬¼´È¥µôÕ»¶¥µÄlen¸ö×´Ì¬Ïî
+				status.pop_back(); //å½’çº¦ï¼Œå³å»æ‰æ ˆé¡¶çš„lenä¸ªçŠ¶æ€é¡¹
 				symbol.pop_back();
 			}
 			map<string, char> m;
@@ -663,7 +663,7 @@ int check(int time, int start_idx, int end_idx) {
 				if (i == 1) f << "->";
 				f << G[gid][i];
 			}
-			f << "¹éÔ¼£¬ÇÒGOTO[" << status[status.size() - 1] << "," << reduced_symbol << "]=" << new_status << "ÈëÕ»" << endl;
+			f << "å½’çº¦ï¼Œä¸”GOTO[" << status[status.size() - 1] << "," << reduced_symbol << "]=" << new_status << "å…¥æ ˆ" << endl;
 		}
 		else
 		{
@@ -672,19 +672,19 @@ int check(int time, int start_idx, int end_idx) {
 			new_status = table[m];
 			if (new_status == "")
 			{
-				cout << "¸ÃÓï¾äÓĞÓï·¨´íÎó£¡£¨ÏêÇéÇë²é¿´·ÖÎö¹ı³ÌÎÄ¼şsentence_" << time << ".txt£©" << endl << endl;
+				cout << "è¯¥è¯­å¥æœ‰è¯­æ³•é”™è¯¯ï¼ï¼ˆè¯¦æƒ…è¯·æŸ¥çœ‹åˆ†æè¿‡ç¨‹æ–‡ä»¶sentence_" << time << ".txtï¼‰" << endl << endl;
 				return 0;
 			}
 			else
 			{
 				status.push_back(new_status);
 				symbol.push_back('$');
-				f << "ACTION[" << cur_status << "," << cur_symbol << "]=" << new_status << "£¬¼´×´Ì¬" << new_status << "ÈëÕ»," <<  "ÇÒ$Èë·ûºÅÕ»" <<endl;
+				f << "ACTION[" << cur_status << "," << cur_symbol << "]=" << new_status << "ï¼Œå³çŠ¶æ€" << new_status << "å…¥æ ˆ," <<  "ä¸”$å…¥ç¬¦å·æ ˆ" <<endl;
 			}
 		}
 	}
 	f.close();
-	cout << "¸ÃÓï¾äÓĞÓï·¨´íÎó£¡£¨ÏêÇéÇë²é¿´·ÖÎö¹ı³ÌÎÄ¼şsentence_" << time << ".txt£©" << endl << endl;
+	cout << "è¯¥è¯­å¥æœ‰è¯­æ³•é”™è¯¯ï¼ï¼ˆè¯¦æƒ…è¯·æŸ¥çœ‹åˆ†æè¿‡ç¨‹æ–‡ä»¶sentence_" << time << ".txtï¼‰" << endl << endl;
 	return 0;
 }
 
