@@ -4,7 +4,7 @@ CSRC = $(shell find $(LOCAL_PATH) -name "*.c" -o -name "*.cpp")
 
 CC = g++
 
-CFLAGS = -Wall
+CFLAGS = -Wall -g
 
 TARGET = main
 
@@ -14,6 +14,9 @@ default: $(BUILD_DIR)/$(TARGET)
 
 image:
 	dot -Tpng analysisTree.dot -o analysisTree.png
+
+lldb: $(BUILD_DIR)/$(TARGET)
+	lldb $(BUILD_DIR)/$(TARGET) -- $(ARGS)
 
 $(BUILD_DIR)/$(TARGET): $(CSRC)
 	@mkdir -p $(BUILD_DIR)
