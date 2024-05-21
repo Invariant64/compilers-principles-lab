@@ -69,8 +69,7 @@ int B(struct token_t* tokens, int* index, int length, struct variable* B_node) {
 			return B(tokens, index, length, B_node2); //上一个返回的结果是空产生式，无需移动指针
 		}
 	}
-	else if (tokens[*index].type == TK_KEY && !strcmp(keyword_type_str[atoi(tokens[*index].value)], "ELSE") ||
-		tokens[*index].type == TK_KEY && !strcmp(keyword_type_str[atoi(tokens[*index].value)], "THEN") ||
+	else if (tokens[*index].type == TK_KEY && !strcmp(keyword_type_str[atoi(tokens[*index].value)], "THEN") ||
 		tokens[*index].type == TK_KEY && !strcmp(keyword_type_str[atoi(tokens[*index].value)], "DO") ||
 		tokens[*index].type == TK_SRP || tokens[*index].type == TK_GT || tokens[*index].type == TK_LT ||
 		tokens[*index].type == TK_EQ || tokens[*index].type == TK_SEM) {
@@ -167,8 +166,7 @@ int D(struct token_t* tokens, int* index, int length, struct variable* D_node) {
 			return 0;
 		}
 	}
-	else if (tokens[*index].type == TK_KEY && !strcmp(keyword_type_str[atoi(tokens[*index].value)], "ELSE") ||
-		tokens[*index].type == TK_KEY && !strcmp(keyword_type_str[atoi(tokens[*index].value)], "THEN") ||
+	else if (tokens[*index].type == TK_KEY && !strcmp(keyword_type_str[atoi(tokens[*index].value)], "THEN") ||
 		tokens[*index].type == TK_KEY && !strcmp(keyword_type_str[atoi(tokens[*index].value)], "DO") ||
 		tokens[*index].type == TK_SRP || tokens[*index].type == TK_ADD || tokens[*index].type == TK_SUB ||
 		tokens[*index].type == TK_GT || tokens[*index].type == TK_LT || tokens[*index].type == TK_EQ ||
@@ -285,48 +283,52 @@ int F(struct token_t* tokens, int* index, int length, struct variable* F_node) {
 }
 
 int H(struct token_t* tokens, int* index, int length, struct variable* H_node) {
-	if (tokens[*index].type == TK_KEY && !strcmp(keyword_type_str[atoi(tokens[*index].value)], "ELSE")) {
+	if (tokens[*index].type == TK_SEM) {
+		struct variable* Sem_node = (struct variable*)malloc(sizeof(struct variable));
 		struct variable* ELSE_node = (struct variable*)malloc(sizeof(struct variable));
 		struct variable* S_node = (struct variable*)malloc(sizeof(struct variable));
 		//赋名
+		strcpy(Sem_node->name, ";");
 		strcpy(ELSE_node->name, "ELSE");
 		strcpy(S_node->name, "S");
 		//设置兄弟
+		Sem_node->brothers = ELSE_node;
 		ELSE_node->brothers = S_node;
 		S_node->brothers = NULL;
 		//设置父亲
+		Sem_node->father = H_node;
 		ELSE_node->father = H_node;
 		S_node->father = H_node;
 		//设置默认长子
+		Sem_node->sons = NULL;
 		ELSE_node->sons = NULL;
 		S_node->sons = NULL;
 		//设置确定长子
-		H_node->sons = ELSE_node;
+		H_node->sons = Sem_node;
 
 		(*index)++;
-		int result = S(tokens, index, length, S_node);
+		int result = tokens[*index].type == TK_KEY && !strcmp(keyword_type_str[atoi(tokens[*index].value)], "ELSE");
 		if (result == 1) {
-			return 1;
-		}
-		else if (result == 2) {
-			return 2;
+			(*index)++;
+			return S(tokens, index, length, S_node);
 		}
 		else { //回溯，使用空产生式
-			strcpy(H_node->name, "ε");
-			H_node->sons = NULL;
 			free(ELSE_node);
 			free(S_node);
+			struct variable* V_node = (struct variable*)malloc(sizeof(struct variable));
+			//赋名
+			strcpy(V_node->name, "ε");
+			//设置兄弟
+			V_node->brothers = NULL;
+			//设置父亲
+			V_node->father = H_node;
+			//设置默认长子
+			V_node->sons = NULL;
+			//设置确定长子
+			H_node->sons = V_node;
+			(*index)--; //未生成分号，回退一位
 			return 2;
 		}
-	}
-	else if (tokens[*index].type == TK_SEM) {
-		struct variable* V_node = (struct variable*)malloc(sizeof(struct variable));
-		strcpy(V_node->name, "ε");
-		V_node->brothers = NULL;
-		V_node->father = H_node;
-		V_node->sons = NULL;
-		H_node->sons = V_node;
-		return 2;
 	}
 	else {
 		H_node->sons = NULL;

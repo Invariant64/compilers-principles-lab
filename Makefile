@@ -1,6 +1,6 @@
 LOCAL_PATH = $(abspath .)
 
-CSRC = $(shell find $(LOCAL_PATH) -name "*.c" -o -name "*.cpp")
+CSRC = $(shell find $(LOCAL_PATH) -name "*.c" -o -name "*.cpp" -maxdepth 1)
 
 CC = g++
 

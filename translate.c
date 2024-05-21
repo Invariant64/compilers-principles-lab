@@ -137,7 +137,7 @@ struct {
   { 2 , 1, VT_A, { VT_EMPTY                         } },
   { 3 , 3, VT_S, { VT_ID, VT_EQ, VT_E               } },
   { 4 , 5, VT_S, { VT_IF, VT_C, VT_THEN, VT_S, VT_H } },
-  { 5 , 2, VT_H, { VT_ELSE, VT_S                    } },
+  { 5 , 3, VT_H, { VT_SEM, VT_ELSE, VT_S            } },
   { 6 , 1, VT_H, { VT_EMPTY                         } },
   { 7 , 4, VT_S, { VT_WHILE, VT_C, VT_DO, VT_S      } },
   { 8 , 2, VT_C, { VT_E, VT_J                       } },
@@ -218,31 +218,64 @@ void action(struct variable *node, struct variable *sons[], int type) {
     case 4:
       // S -> IF C THEN S H
       printf("S -> IF C THEN S H\n");
-      sons[1]->info.texit = new_label();
-      sons[3]->info.next = sons[4]->info.next = node->info.next = new_label();
-      if (sons[4]->sons->type == VT_ELSE) {
-        sons[1]->info.fexit = new_label();
-        node->info.code = char_concat(12, sons[1]->info.code, sons[1]->info.texit, ":\n", sons[3]->info.code, 
-          "\tgoto ", node->info.next, "\n", sons[1]->info.fexit, ":\n", sons[4]->info.code, node->info.next, ":\n");
+
+      if (sons[4]->sons->type == VT_SEM) {
+        // sons[1]->info.fexit = new_label();
+        if (sons[3]->info.begin == NULL) {
+          sons[1]->info.texit = sons[3]->info.begin = new_label();
+          node->info.code = char_concat(5, sons[1]->info.code, sons[1]->info.texit, ":\n", sons[3]->info.code, "\tgoto ");
+        } else {
+          sons[1]->info.texit = sons[3]->info.begin;
+          node->info.code = char_concat(3, sons[1]->info.code, sons[3]->info.code, "\tgoto ");
+        }
+
+        if (sons[4]->info.begin == NULL) {
+          sons[1]->info.fexit = sons[4]->info.begin = new_label();
+          node->info.code = char_concat(6, node->info.code, sons[1]->info.fexit, "\n", sons[1]->info.fexit, ":\n", sons[4]->info.code);
+        } else {
+          sons[1]->info.fexit = sons[4]->info.begin;
+          node->info.code = char_concat(4, node->info.code, sons[1]->info.fexit, "\n", sons[4]->info.code);
+        }
+
+        if (sons[3]->info.next == NULL && sons[4]->info.next == NULL) {
+          node->info.next = new_label();
+          node->info.code = char_concat(3, node->info.code, node->info.next, ":\n");
+        } else if (sons[3]->info.next != NULL) {
+          node->info.next = sons[3]->info.next;
+        } else {
+          node->info.next = sons[4]->info.next;
+        }
       } else {
-        sons[1]->info.fexit = node->info.next;
-        node->info.code = char_concat(6, sons[1]->info.code, sons[1]->info.texit, ":\n", sons[3]->info.code, node->info.next, ":\n");
+        if (sons[3]->info.begin == NULL) {
+          sons[1]->info.texit = sons[3]->info.begin = new_label();
+          node->info.code = char_concat(4, sons[1]->info.code, sons[1]->info.texit, ":\n", sons[3]->info.code);
+        } else {
+          sons[1]->info.texit = sons[3]->info.begin;
+          node->info.code = char_concat(2, sons[1]->info.code, sons[3]->info.code);
+        }
+        if (sons[3]->info.next == NULL) {
+          sons[1]->info.fexit = node->info.next = new_label();
+          node->info.code = char_concat(3, node->info.code, node->info.next, ":\n");
+        } else {
+          sons[1]->info.fexit = node->info.next = sons[3]->info.next;
+        }
       }
       break;
     case 5:
-      // H -> ELSE S
-      printf("H -> ELSE S\n");
-      sons[1]->info.next = node->info.next;
-      node->info.code = sons[1]->info.code;
+      // H -> ; ELSE S
+      printf("H -> ; ELSE S\n");
+      sons[2]->info.next = node->info.next;
+      node->info.code = sons[2]->info.code;
+      node->info.begin = sons[2]->info.begin;
       break;
     case 6:
       // H -> ε
       printf("H -> ε\n");
       node->info.code = (char *)malloc(1);
       node->info.code[0] = '\0';
-      break;
 
       printf("6: H -> ε\nH->code: %s\n", node->info.code);
+      break;
     case 7:
       // S -> WHILE C DO S
       printf("S -> WHILE C DO S\n");
@@ -279,9 +312,14 @@ void action(struct variable *node, struct variable *sons[], int type) {
     case 12:
       // E -> T B
       printf("E -> T B\n");
-      node->info.place = new_temp();
-      node->info.code = char_concat(9, sons[0]->info.code, sons[1]->info.code, "\t", node->info.place, " := ", 
-        sons[0]->info.place, sons[1]->info.op, sons[1]->info.place, "\n");
+      if (sons[1]->sons->type == VT_EMPTY) {
+        node->info.place = sons[0]->info.place;
+        node->info.code = sons[0]->info.code;
+      } else {
+        node->info.place = new_temp();
+        node->info.code = char_concat(9, sons[0]->info.code, sons[1]->info.code, "\t", node->info.place, " := ", 
+          sons[0]->info.place, sons[1]->info.op, sons[1]->info.place, "\n");
+      }
       
       printf("12: E -> T B\nE->place: %s\nE->code: %s\n", node->info.place, node->info.code);
       break;
@@ -311,9 +349,14 @@ void action(struct variable *node, struct variable *sons[], int type) {
     case 16:
       // T -> F D
       printf("T -> F D\n");
-      node->info.place = new_temp();
-      node->info.code = char_concat(9, sons[0]->info.code, sons[1]->info.code, "\t", node->info.place, " := ", 
-        sons[0]->info.place, sons[1]->info.op, sons[1]->info.place, "\n");
+      if (sons[1]->sons->type == VT_EMPTY) {
+        node->info.place = sons[0]->info.place;
+        node->info.code = sons[0]->info.code;
+      } else {
+        node->info.place = new_temp();
+        node->info.code = char_concat(9, sons[0]->info.code, sons[1]->info.code, "\t", node->info.place, " := ", 
+          sons[0]->info.place, sons[1]->info.op, sons[1]->info.place, "\n");
+      }
 
       printf("16: T -> F D\nT->place: %s\nT->code: %s\n", node->info.place, node->info.code);
       break;
@@ -323,7 +366,7 @@ void action(struct variable *node, struct variable *sons[], int type) {
       // D -> / F D
       printf("D -> %s F D\n", sons[0]->name);
       node->info.op = sons[0]->name;
-      if (sons[2]->type == VT_EMPTY) {
+      if (sons[2]->sons->type == VT_EMPTY) {
         node->info.place = sons[1]->info.place;
         node->info.code = sons[1]->info.code;
       } else {
@@ -350,15 +393,30 @@ void action(struct variable *node, struct variable *sons[], int type) {
       break;
     case 21:
       // F -> ID
-    case 22:
+      node->info.place = (char *)malloc(7);
+      strcpy(node->info.place, sons[0]->name);
+      node->info.code = (char *)malloc(1);
+      node->info.code[0] = '\0';
+      break;
+    case 22: 
       // F -> INT8
+      node->info.place = (char *)malloc(7);
+      sprintf(node->info.place, "%d", strtol(sons[0]->name, NULL, 8));
+      node->info.code = (char *)malloc(1);
+      node->info.code[0] = '\0';
+      break;
     case 23:
       // F -> INT10
+      node->info.place = (char *)malloc(7);
+      sprintf(node->info.place, "%d", strtol(sons[0]->name, NULL, 10));
+      node->info.code = (char *)malloc(1);
+      node->info.code[0] = '\0';
+      break;
     case 24:
       // F -> INT16
       printf("F -> %s\n", sons[0]->name);
-      node->info.place = node->info.code = (char *)malloc(7);
-      strcpy(node->info.place, sons[0]->name);
+      node->info.place = (char *)malloc(7);
+      sprintf(node->info.place, "%ld", strtol(sons[0]->name, NULL, 16));
       node->info.code = (char *)malloc(1);
       node->info.code[0] = '\0';
 
