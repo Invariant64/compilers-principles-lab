@@ -311,6 +311,8 @@ void action(struct variable *node, struct variable *sons[], int type) {
       break;
     case 12:
       // E -> T B
+    case 16:
+      // T -> F D
       printf("E -> T B\n");
       if (sons[1]->sons->type == VT_EMPTY) {
         node->info.place = sons[0]->info.place;
@@ -333,7 +335,10 @@ void action(struct variable *node, struct variable *sons[], int type) {
       // B -> + T B
     case 14:
       // B -> - T B
-      printf("B -> %s T B\n", sons[0]->name);
+    case 17:
+      // D -> * F D
+    case 18:
+      // D -> / F D
       node->info.op = sons[0]->name;
       if (sons[2]->sons->type == VT_EMPTY) {
         node->info.stack.top = 0;
@@ -351,59 +356,10 @@ void action(struct variable *node, struct variable *sons[], int type) {
       break;
     case 15:
       // B -> ε
-      printf("B -> ε\n");
-      node->info.code = (char *)malloc(1);
-      node->info.code[0] = '\0';
-
-      printf("15: B -> ε\nB->code: %s\n", node->info.code);
-      break;
-    case 16:
-      // T -> F D
-      printf("T -> F D\n");
-      if (sons[1]->sons->type == VT_EMPTY) {
-        node->info.place = sons[0]->info.place;
-        node->info.code = sons[0]->info.code;
-      } else {
-        node->info.code = sons[0]->info.code;
-        char *last_place = sons[0]->info.place;
-        char *cur_place;
-        for (int i = sons[1]->info.stack.top; i >= 0; i--) {
-          cur_place = new_temp();
-          node->info.code = char_concat(8, node->info.code, "\t", cur_place, " := ", last_place, sons[1]->info.stack.ops[i], sons[1]->info.stack.places[i], "\n");
-          last_place = cur_place;
-        }
-        node->info.place = last_place;
-      }
-
-      printf("16: T -> F D\nT->place: %s\nT->code: %s\n", node->info.place, node->info.code);
-      break;
-    case 17:
-      // D -> * F D
-    case 18:
-      // D -> / F D
-      printf("D -> %s F D\n", sons[0]->name);
-      node->info.op = sons[0]->name;
-      if (sons[2]->sons->type == VT_EMPTY) {
-        node->info.stack.top = 0;
-        node->info.stack.places[0] = sons[1]->info.place;
-        node->info.stack.ops[0] = sons[0]->name;
-      } else {
-        node->info.stack.top = sons[2]->info.stack.top + 1;
-        for (int i = 0; i <= sons[2]->info.stack.top; i++) {
-          node->info.stack.places[i] = sons[2]->info.stack.places[i];
-          node->info.stack.ops[i] = sons[2]->info.stack.ops[i];
-        }
-        node->info.stack.places[node->info.stack.top] = sons[1]->info.place;
-        node->info.stack.ops[node->info.stack.top] = sons[0]->name;
-      }
-      break;
     case 19:
       // D -> ε
-      printf("D -> ε\n");
       node->info.code = (char *)malloc(1);
       node->info.code[0] = '\0';
-
-      printf("19: D -> ε\nD->code: %s\n", node->info.code);
       break;
     case 20:
       // F -> ( E )
