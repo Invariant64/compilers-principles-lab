@@ -118,10 +118,10 @@ void show_First() {
 
 //输出闭包
 
-void show_Closure() {  //项目集和GO函数输出到Closure.txt文件
-	fstream f("Closure.txt", ios::out);
+void show_Closure() {  //项目集和GO函数输出到results/Closure.txt文件
+	fstream f("results/Closure.txt", ios::out);
 	if (!f) {
-		cout << "Closure.txt文件打开出错！" << endl;
+		cout << "results/Closure.txt文件打开出错！" << endl;
 		return;
 	}
 	f << "该文法的项目集和GO函数：" << endl;
@@ -145,19 +145,19 @@ void show_Closure() {  //项目集和GO函数输出到Closure.txt文件
 		}
 		f << endl;
 	}
-	cout << "已将项目集和GO函数生成到Closure.txt文件中。" << endl << endl;
+	cout << "已将项目集和GO函数生成到results/Closure.txt文件中。" << endl << endl;
 }
 
 
 
 //输出LR分析表
 
-void show_Table() {  //LR分析表输出到LR_Table.txt文件
+void show_Table() {  //LR分析表输出到results/LR_Table.txt文件
 	
-	fstream f("LR_Table.txt", ios::out);
+	fstream f("results/LR_Table.txt", ios::out);
 	
 	if (!f) {
-		cout << "LR_Table.txt文件打开出错！" << endl;
+		cout << "results/LR_Table.txt文件打开出错！" << endl;
 		return;
 	}
 	
@@ -195,7 +195,7 @@ void show_Table() {  //LR分析表输出到LR_Table.txt文件
 		f << endl;
 	}
 	f.close();
-	cout << "已将LR分析表生成到LR_Table.txt文件中。" << endl << endl;
+	cout << "已将LR分析表生成到results/LR_Table.txt文件中。" << endl << endl;
 	/*for (auto it1 : table) {
 		for (auto it2 : it1.first) {
 			cout << it2.first << it2.second << ":"<<it1.second<<endl;
@@ -596,7 +596,7 @@ int check(int time, int start_idx, int end_idx) {
 	sentence += '#';
 	transform(sentence.begin(), sentence.end(), sentence.begin(), ::tolower);
 
-	fstream f("./sentence/sentence_" + to_string(time) + ".txt", ios::out); 
+	fstream f("./results/sentence/sentence_" + to_string(time) + ".txt", ios::out); 
 	
 	if (!f) {
 		cout << "无法打开文件sentence.txt" << endl;
@@ -634,7 +634,7 @@ int check(int time, int start_idx, int end_idx) {
 		m[cur_status] = cur_symbol;
 		new_status = table[m];
 		if (new_status == "acc") {
-			cout << "分析成功，该语句合法！(具体分析过程请查看文件sentence_" << time << ".txt）" << endl << endl;
+			cout << "分析成功，该语句合法！(具体分析过程请查看文件results/sentence/sentence_" << time << ".txt）" << endl << endl;
 			f << "acc：分析成功" << endl;
 			return 1;
 		}
@@ -672,7 +672,7 @@ int check(int time, int start_idx, int end_idx) {
 			new_status = table[m];
 			if (new_status == "")
 			{
-				cout << "该语句有语法错误！（详情请查看分析过程文件sentence_" << time << ".txt）" << endl << endl;
+				cout << "该语句有语法错误！（详情请查看分析过程文件results/sentence/sentence_" << time << ".txt）" << endl << endl;
 				return 0;
 			}
 			else
@@ -684,7 +684,7 @@ int check(int time, int start_idx, int end_idx) {
 		}
 	}
 	f.close();
-	cout << "该语句有语法错误！（详情请查看分析过程文件sentence_" << time << ".txt）" << endl << endl;
+	cout << "该语句有语法错误！（详情请查看分析过程文件results/sentence/sentence_" << time << ".txt）" << endl << endl;
 	return 0;
 }
 
@@ -730,6 +730,9 @@ int main(int argc, char** argv) {
 
 	free(str);
 
+	filesystem::remove_all("./results");
+	filesystem::create_directory("./results");
+
 	read_G();
 
 	cout << endl;
@@ -751,8 +754,7 @@ int main(int argc, char** argv) {
 
 		int time = 0;
 
-		filesystem::remove_all("./sentence");
-		filesystem::create_directory("./sentence");
+		filesystem::create_directory("./results/sentence");
 
 		int start_idx = 0, end_idx = 0;
 		while (1) {
@@ -763,5 +765,4 @@ int main(int argc, char** argv) {
 			if (start_idx >= nr_tokens) break;
 		}
 	}
-	system("pause");
 }

@@ -9,12 +9,16 @@ CXXFLAGS = -std=c++17
 
 BUILD_DIR = build
 
+RESULTS_DIR = results
+
 TARGET = main
 
 $(BUILD_DIR)/%.o: %.c
+	@mkdir -p $(BUILD_DIR)
 	$(CC) -c -o $@ $<
 
 $(BUILD_DIR)/%.o: %.cpp
+	@mkdir -p $(BUILD_DIR)
 	$(CXX) $(CXXFLAGS) -c -o $@ $<
 
 default: $(BUILD_DIR)/$(TARGET)
@@ -23,7 +27,11 @@ $(BUILD_DIR)/$(TARGET): $(OBJ)
 	@mkdir -p $(BUILD_DIR)
 	$(CXX) $(CXXFLAGS) -o $@ $^
 
+run: $(BUILD_DIR)/$(TARGET)
+	$(BUILD_DIR)/$(TARGET)
+
 .PHONY: clean
 
 clean:
 	rm -rf $(BUILD_DIR)
+	rm -rf $(RESULTS_DIR)
