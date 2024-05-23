@@ -5,6 +5,8 @@
 !*.cpp
 !*.h
 
+!src
+
 !production.txt
 
 !.gitignore

@@ -1,8 +1,11 @@
 # 排除main.c main.cpp
-CSRC = $(filter-out main.c, $(wildcard *.c))
-CXXSRC = $(filter-out main.cpp, $(wildcard *.cpp))
+SRC_DIR = src
 
-OBJ = $(patsubst %.c, $(BUILD_DIR)/%.o, $(CSRC)) $(patsubst %.cpp, $(BUILD_DIR)/%.o, $(CXXSRC))
+# 在SRC_DIR中的所有.c文件
+CSRC = $(filter-out main.c, $(wildcard $(SRC_DIR)/*.c))
+CXXSRC = $(filter-out main.cpp, $(wildcard $(SRC_DIR)/*.cpp))
+
+OBJ = $(patsubst $(SRC_DIR)/%.c, $(BUILD_DIR)/%.o, $(CSRC)) $(patsubst $(SRC_DIR)/%.cpp, $(BUILD_DIR)/%.o, $(CXXSRC))
 
 CC = gcc
 CXX = g++
@@ -24,16 +27,16 @@ default: $(BUILD_DIR)/$(TARGET)
 $(BUILD_DIR)/main.o: 
 	@mkdir -p $(BUILD_DIR)
 	@if [ "$(GRAMMAR)" = "LR1" ]; then \
-		$(CXX) $(CXXFLAGS) -c -o $(BUILD_DIR)/main.o main.cpp; \
+		$(CXX) $(CXXFLAGS) -c -o $(BUILD_DIR)/main.o $(SRC_DIR)/main.cpp; \
 	else \
-		$(CC) $(CFLAGS) -c -o $(BUILD_DIR)/main.o main.c; \
+		$(CC) $(CFLAGS) -c -o $(BUILD_DIR)/main.o $(SRC_DIR)/main.c; \
 	fi
 
-$(BUILD_DIR)/%.o: %.c
+$(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
 	@mkdir -p $(BUILD_DIR)
 	$(CC) $(CFLAGS) -c -o $@ $<
 
-$(BUILD_DIR)/%.o: %.cpp
+$(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp
 	@mkdir -p $(BUILD_DIR)
 	$(CXX) $(CXXFLAGS) -c -o $@ $<
 
