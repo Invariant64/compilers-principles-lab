@@ -1,6 +1,10 @@
 #ifndef __TOKENS_H__
 #define __TOKENS_H__
 
+#ifdef __cplusplus
+extern "C" {
+#endif // __cplusplus
+
 #define MAX_TOKEN_LEN 64
 #include <stdbool.h>
 enum token_type {
@@ -39,6 +43,9 @@ enum keyword_type {
   KW_END,   // End
 };
 
+extern const char* keyword_type_str[];
+extern const char* token_type_str[];
+
 struct token_t {
   enum token_type type;
   char value[MAX_TOKEN_LEN];
@@ -59,5 +66,9 @@ int OP_TYPE(char *c);
 bool OTHERS(char c, const char *s);
 bool KEYWORD(char *c, int len);
 int KEYWORD_TYPE(char *c, int len);
+
+#ifdef __cplusplus
+}
+#endif // __cplusplus
 
 #endif // __TOKENS_H__

@@ -1,13 +1,13 @@
-build
-.vscode
-input.txt
-.vs/
-Debug/
-x64/
-/compilers_principles_lab.sln
-/compilers_principles_lab.vcxproj
-/compilers_principles_lab.vcxproj.filters
-/compilers_principles_lab.vcxproj.user
+*
+*.*
 
-analysisTree.dot
-analysisTree.png
+!*.c
+!*.cpp
+!*.h
+
+!LR1
+
+!.gitignore
+!.gitattributes
+
+!Makefile

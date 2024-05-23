@@ -9,7 +9,7 @@
 #include<unordered_map>
 #include <filesystem>
 #include "lex.h"
-#include "tokens.c"
+#include "tokens.h"
 
 using namespace std;
 
