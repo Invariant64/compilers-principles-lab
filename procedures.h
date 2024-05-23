@@ -16,6 +16,12 @@ struct VariableInfo {
 	char *texit;
 	char *fexit;
 	char *op;
+
+	struct {
+		int top;
+		char *places[16];
+		char *ops[16];
+	} stack;
 };
 
 enum VariableType {
