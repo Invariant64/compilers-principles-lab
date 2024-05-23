@@ -1,26 +1,54 @@
-LOCAL_PATH = $(abspath .)
+# 排除main.c main.cpp
+CSRC = $(filter-out main.c, $(wildcard *.c))
+CXXSRC = $(filter-out main.cpp, $(wildcard *.cpp))
 
-CSRC = $(shell find $(LOCAL_PATH) -name "*.c" -o -name "*.cpp" -maxdepth 1)
+OBJ = $(patsubst %.c, $(BUILD_DIR)/%.o, $(CSRC)) $(patsubst %.cpp, $(BUILD_DIR)/%.o, $(CXXSRC))
 
-CC = g++
+CC = gcc
+CXX = g++
 
-CFLAGS = -Wall -g
+
+CXXFLAGS = -std=c++17
 
 TARGET = main
 
-BUILD_DIR = $(LOCAL_PATH)/build
+BUILD_DIR = build
+
+RESULTS_DIR = results
+
+TARGET = main
 
 default: $(BUILD_DIR)/$(TARGET)
 
+$(BUILD_DIR)/main.o: 
+	@mkdir -p $(BUILD_DIR)
+	@if [ "$(GRAMMAR)" = "LR1" ]; then \
+		$(CXX) $(CXXFLAGS) -c -o $(BUILD_DIR)/main.o main.cpp; \
+	else \
+		$(CC) -c -o $(BUILD_DIR)/main.o main.c; \
+	fi
+
+$(BUILD_DIR)/%.o: %.c
+	@mkdir -p $(BUILD_DIR)
+	$(CC) -c -o $@ $<
+
+$(BUILD_DIR)/%.o: %.cpp
+	@mkdir -p $(BUILD_DIR)
+	$(CXX) $(CXXFLAGS) -c -o $@ $<
+
+$(BUILD_DIR)/$(TARGET): $(OBJ) $(BUILD_DIR)/main.o
+	@mkdir -p $(BUILD_DIR)
+	@mkdir -p $(RESULTS_DIR)
+	$(CXX) $(CXXFLAGS) -o $@ $^
+
 image:
-	dot -Tpng analysisTree.dot -o analysisTree.png
+	dot -Tpng $(RESULTS_DIR)/analysisTree.dot -o $(RESULTS_DIR)/analysisTree.png
+
+gdb: $(BUILD_DIR)/$(TARGET)
+	gdb $(BUILD_DIR)/$(TARGET) -- $(ARGS)
 
 lldb: $(BUILD_DIR)/$(TARGET)
 	lldb $(BUILD_DIR)/$(TARGET) -- $(ARGS)
-
-$(BUILD_DIR)/$(TARGET): $(CSRC)
-	@mkdir -p $(BUILD_DIR)
-	$(CC) $(CFLAGS) -o $@ $^
 
 .PHONY: clean
 

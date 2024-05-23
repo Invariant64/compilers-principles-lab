@@ -730,9 +730,6 @@ int main(int argc, char** argv) {
 
 	free(str);
 
-	filesystem::remove_all("./results");
-	filesystem::create_directory("./results");
-
 	read_G();
 
 	cout << endl;

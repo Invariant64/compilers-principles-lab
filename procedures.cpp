@@ -678,7 +678,7 @@ void print_tree(struct variable* node) {
 }
 
 void print_GraphTree(struct variable* node) {
-	FILE* file = fopen("analysisTree.dot", "w");
+	FILE* file = fopen("results/analysisTree.dot", "w");
 	int letter[11] = { 0 }; //A B C D E F H J P S T 的个数
 	if (file) {
 		fprintf(file, "digraph G {\n");

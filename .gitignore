@@ -5,9 +5,10 @@
 !*.cpp
 !*.h
 
-!LR1
+!production.txt
 
 !.gitignore
 !.gitattributes
 
 !Makefile
+!README.md
