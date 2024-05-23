@@ -7,8 +7,9 @@ OBJ = $(patsubst %.c, $(BUILD_DIR)/%.o, $(CSRC)) $(patsubst %.cpp, $(BUILD_DIR)/
 CC = gcc
 CXX = g++
 
+CFLAGS = -g
 
-CXXFLAGS = -std=c++17
+CXXFLAGS = -std=c++17 -g
 
 TARGET = main
 
@@ -25,12 +26,12 @@ $(BUILD_DIR)/main.o:
 	@if [ "$(GRAMMAR)" = "LR1" ]; then \
 		$(CXX) $(CXXFLAGS) -c -o $(BUILD_DIR)/main.o main.cpp; \
 	else \
-		$(CC) -c -o $(BUILD_DIR)/main.o main.c; \
+		$(CC) $(CFLAGS) -c -o $(BUILD_DIR)/main.o main.c; \
 	fi
 
 $(BUILD_DIR)/%.o: %.c
 	@mkdir -p $(BUILD_DIR)
-	$(CC) -c -o $@ $<
+	$(CC) $(CFLAGS) -c -o $@ $<
 
 $(BUILD_DIR)/%.o: %.cpp
 	@mkdir -p $(BUILD_DIR)
